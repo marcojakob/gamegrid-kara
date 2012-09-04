@@ -1,0 +1,77 @@
+; ----------------------------------------------------------------
+; -- Sokoban Levels (ENGLISH) --
+; ----------------------------------------------------------------
+; Each level must start with the Word 'Level:'.
+; This is followed by a line starting with 'Password:' and the password.
+;
+; After Level and Password, the actor positions are described with the 
+; following signs (see below):
+;
+; ----------------------------------------------------------------
+; -- Sokoban Levels (GERMAN) --
+; ----------------------------------------------------------------
+; Jeder Level muss mit dem Wort 'Level:' anfangen. Dann folgt auf der
+; naechsten Zeile das Wort 'Password:' mit anschliessendem Passwort.
+;
+; Danach werden die Positionen der Akteure wie folgt definiert:
+;
+; ----------------------------------------------------------------
+; -- Signs for Actor Positions --
+; ----------------------------------------------------------------
+; Kara: @
+; Tree: #
+; Leaf: .
+; Mushroom: $
+; Mushroom on Leaf: *
+; Kara on Leaf: +
+; Empty Field: Space
+;
+; A line starting with a Semicolon (;) is a comment and is ignored by the program.
+;
+; ----------------------------------------------------------------
+; -- THE LEVELS START HERE:
+; ----------------------------------------------------------------
+
+Level: 1
+Password: Albatross
+####
+# .#
+#  ###
+# @  #
+#  $ #
+#  ###
+####
+
+Level: 2
+Password: Buffalo
+#####
+#@  #
+# $$# ###
+# $ # #.#
+### ###.#
+ ##    .#
+ #   #  #
+ #   ####
+ #####
+
+Level: 3
+Password: Chicken
+######
+#    #
+# #@ #
+# $* #
+# .* #
+#    #
+######
+
+Level: 4
+Password: Duck
+  #######
+  #     #
+  # $ @ #
+##### # #
+# $     #
+#  #$## ##
+#..$  #  #
+#..      #
+##########

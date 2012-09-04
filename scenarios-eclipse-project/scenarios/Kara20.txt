@@ -1,0 +1,27 @@
+Scenario: Kara 20a Kara as Guard 
+X: 9
+Y: 9
+Kara: up
+
+    ####
+   #...#
+  #....#
+@#.....#
+  #..##
+ #..#
+  ###
+
+Scenario: Kara 20b Kara as Guard 
+X: 9
+Y: 9
+Kara: left
+
+ #######
+ #.....#
+ #.###.#
+ #.# #.#
+ #.# #.#
+ #.# #.#
+ ### ###
+   @
+  

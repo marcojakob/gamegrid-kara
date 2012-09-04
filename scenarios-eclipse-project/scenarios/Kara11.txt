@@ -1,0 +1,5 @@
+Scenario: Kara 11 Nested Conditions
+X: 10
+Y: 2
+  # ### #
+@ ...  ..

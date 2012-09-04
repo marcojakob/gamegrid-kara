@@ -1,0 +1,21 @@
+-------------------------------------
+-- Image Info (ENGLISH)
+-------------------------------------
+You can replace the images in the folder "myimages" with your own images to change 
+the appearance of the actors. 
+The image field.png is the background which will be used as a tile.
+
+All actor images have 27x27 pixels while the background field has 28x28 pixels.
+The replacement images must have the same name!
+
+
+-------------------------------------
+-- Image Info (GERMAN)
+-------------------------------------
+Die Bilder in "myimages" koennen mit eigenen Bildern ersetzt werden, um das Aussehen
+der Actors zu veraendern.
+Thas Bild field.png wird als Kachel fuer das Hintergrundbild verwendet.
+
+Alle Acter Bilder haben eine Groesse von 27x27, das Hintergrundbild eine Groesse von
+28x28 Pixel.
+Wenn ein Bild ersetzt wird, muss es wieder genau gleich heissen, wie das Originalbild.

@@ -1,0 +1,21 @@
+Scenario: Kara 12a Afraid of Tunnel 
+X: 9
+Y: 3
+   #####
+@
+     ####
+     
+Scenario: Kara 12b Afraid of Tunnel 
+X: 9
+Y: 3
+   #####
+@
+   ######
+   
+Scenario: Kara 12c Afraid of Tunnel 
+X: 9
+Y: 3
+   ######
+   @
+   ######
+

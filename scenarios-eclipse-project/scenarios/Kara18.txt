@@ -1,0 +1,24 @@
+Scenario: Kara 18a Around Tree III 
+X: 10
+Y: 2
+
+@# ### #.
+
+Scenario: Kara 18b Around Tree III 
+X: 10
+Y: 2
+
+@ ### ## .
+
+Scenario: Kara 18c Around Tree III 
+X: 10
+Y: 2
+
+@########.
+
+Scenario: Kara 18d Around Tree III 
+X: 10
+Y: 2
+
+   @.#
+

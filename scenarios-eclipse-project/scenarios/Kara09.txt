@@ -1,0 +1,17 @@
+Scenario: Kara 09a Around Tree II
+X: 10
+Y: 2
+
+@ # #  #.
+
+Scenario: Kara 09b Around Tree II
+X: 10
+Y: 2
+
+ @# # #.
+
+Scenario: Kara 09c Around Tree II
+X: 10
+Y: 2
+
+@  # # #.#

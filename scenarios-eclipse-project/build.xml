@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<project default="main">
+	<!-- Builds Eclipse Projects for each chapter and zips them -->
+
+	<property name="version">1.3.4</property>
+	<property name="gameGridVersion">2.20</property>
+
+	<property name="targetFolder">target</property>
+	<property name="targetProjectsFolder">targetProjects</property>
+	<property name="zipFolder">targetZips</property>
+	<property name="jarName">GameGridKara-${version}.jar</property>
+
+	
+	<target name="main" depends="prepareTarget, buildProjects" />
+
+	<target name="prepareTarget" depends="copyToTarget, jar" />
+
+	<target name="copyToTarget" description="Copy files to target directory">
+		<delete dir="${targetFolder}" />
+		<mkdir dir="${targetFolder}" />
+		<copy todir="${targetFolder}/lib">
+			<fileset file="lib/*.jar" />
+		</copy>
+		<copy todir="${targetFolder}/images">
+			<fileset dir="images" />
+		</copy>
+		<copy todir="${targetFolder}/scenarios">
+			<fileset dir="scenarios" />
+		</copy>
+	</target>
+
+	<target name="jar" description="Package into JAR">
+		<jar destfile="${targetFolder}/lib/${jarName}" compress="true">
+			<fileset dir="${basedir}/bin" />
+			<fileset dir="${basedir}/src" />
+			<fileset dir="${basedir}">
+				<include name="default_images/*.*" />
+			</fileset>
+			<fileset file="${basedir}/COPYRIGHT" />
+		</jar>
+	</target>
+
+	<target name="prepareProjects" >
+		<delete dir="${targetProjectsFolder}" />
+		<mkdir dir="${targetProjectsFolder}" />
+		<delete dir="${zipFolder}" />
+		<mkdir dir="${zipFolder}" />
+	</target>
+
+
+	<target name="buildProjects" depends="prepareProjects" description="Distribute to individual projects">
+		<antcall target="doBuildProject">
+			<param name="chapter" value="chapter-1" />
+		</antcall>
+		<antcall target="doBuildProject">
+			<param name="chapter" value="chapter-2" />
+		</antcall>
+		<antcall target="doBuildProject">
+			<param name="chapter" value="chapter-3" />
+		</antcall>
+		<antcall target="doBuildProject">
+			<param name="chapter" value="chapter-4" />
+			<param name="skinIncludes" value="*.*" />
+		</antcall>
+		<antcall target="doBuildProject">
+			<param name="chapter" value="chapter-5" />
+		</antcall>
+		
+		<!-- Create All zips -->
+		<zip destfile="${zipFolder}/scenarios-all.zip" >
+			<fileset dir="${targetProjectsFolder}">
+				<exclude name="*solutions/**" />
+			</fileset>
+		</zip>
+
+		<zip destfile="${zipFolder}/scenarios-all-solutions.zip" >
+			<fileset dir="${targetProjectsFolder}">
+				<include name="*solutions/**" />
+			</fileset>
+		</zip>
+	</target>
+
+
+	<target name="doBuildProject">
+		<echo>Building Project ${chapter}</echo>
+		<property name="projectExercises" value="scenarios-${chapter}"/>
+		<property name="projectSolutions" value="scenarios-${chapter}-solutions"/>
+
+		<mkdir dir="${targetProjectsFolder}/${projectExercises}" />
+		<mkdir dir="${targetProjectsFolder}/${projectSolutions}" />
+
+		<copy todir="${targetProjectsFolder}/${projectExercises}">
+			<fileset dir="${targetFolder}" excludes="*Boxxle*.*"/>
+		</copy>
+		<copy todir="${targetProjectsFolder}/${projectExercises}/src">
+			<fileset dir="src-${chapter}" includes="**/exercise/**" />
+		</copy>
+
+		<copy todir="${targetProjectsFolder}/${projectSolutions}">
+			<fileset dir="${targetFolder}" />
+		</copy>
+		<copy todir="${targetProjectsFolder}/${projectSolutions}/src">
+			<fileset dir="src-${chapter}" includes="**/solution/**" />
+		</copy>
+
+		<antcall target="doCreateClasspathAndProject">
+			<param name="projectName" value="${projectExercises}" />
+		</antcall>
+		<antcall target="doCreateClasspathAndProject">
+			<param name="projectName" value="${projectSolutions}" />
+		</antcall>
+
+		<!-- Copying alternative skin to solutions if desired -->
+		<copy todir="${targetProjectsFolder}/${projectSolutions}/images" overwrite="true">
+			<fileset dir="${basedir}/skin" includes="${skinIncludes}" />
+		</copy>
+		
+		<!-- Create the zips -->
+		<antcall target="doZipProject">
+			<param name="projectName" value="${projectExercises}" />
+		</antcall>
+		<antcall target="doZipProject">
+			<param name="projectName" value="${projectSolutions}" />
+		</antcall>
+	</target>
+
+	<target name="doCreateClasspathAndProject" >
+		<!-- Write the .classpath file -->
+		<echo file="${targetProjectsFolder}/${projectName}/.classpath">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;classpath&gt;
+	&lt;classpathentry kind="src" path="src"/&gt;
+	&lt;classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/&gt;
+	&lt;classpathentry kind="lib" path="lib/JGameGrid-${gameGridVersion}.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/GameGridKara-${version}.jar"/&gt;
+	&lt;classpathentry kind="output" path="bin"/&gt;
+&lt;/classpath&gt;
+		</echo>
+
+		<!-- Write the .project file -->
+		<echo file="${targetProjectsFolder}/${projectName}/.project">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;projectDescription&gt;
+	&lt;name&gt;${projectName}&lt;/name&gt;
+	&lt;comment&gt;&lt;/comment&gt;
+	&lt;projects&gt;
+	&lt;/projects&gt;
+	&lt;buildSpec&gt;
+		&lt;buildCommand&gt;
+			&lt;name&gt;org.eclipse.jdt.core.javabuilder&lt;/name&gt;
+			&lt;arguments&gt;
+			&lt;/arguments&gt;
+		&lt;/buildCommand&gt;
+	&lt;/buildSpec&gt;
+	&lt;natures&gt;
+		&lt;nature&gt;org.eclipse.jdt.core.javanature&lt;/nature&gt;
+	&lt;/natures&gt;
+&lt;/projectDescription&gt;
+		</echo>
+	</target>
+
+	<target name="doZipProject">
+		<zip destfile="${zipFolder}/${projectName}.zip" basedir="${targetProjectsFolder}/${projectName}" />
+	</target>
+	
+	<target name="cleanTarget">
+		<delete dir="${targetFolder}" />
+		<delete dir="${targetProjectsFolder}" />
+	</target>
+		
+</project>
