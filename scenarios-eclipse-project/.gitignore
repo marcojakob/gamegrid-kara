@@ -1,0 +1,11 @@
+#################
+## Eclipse
+#################
+/bin
+/.metadata
+/target
+/targetProjects
+/targetZips
+
+# Locally stored "Eclipse launch configurations"
+/*.launch
