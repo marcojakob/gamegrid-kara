@@ -20,6 +20,7 @@
 * Added a title in the title bar.
 * Added Kara icon to frame.
 * Disable context menu for non-developer mode in sokoban.
+* Enabled wildcard (* and ?) filename patterns to find world setup files.
 
 ## GameGridKara 1.3.3 
 
