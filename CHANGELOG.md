@@ -6,18 +6,20 @@
 	WorldImages.
 * Background is now loaded from the field.png file and used as tile. This can also
 	be changed by placing the corresponding file in the "images" folder.
-* Generic way to generate a Scenario from a text file (see Scenario class). A 
+* Changed the naming of Scenario to WorldSetup (for the reading from the world setup 
+	text file).
+* Changed package naming. Now we have a package per scenario.
+* Put world setup text files inside scenario package.
+* Generic way to generate a WorldSetup from a text file (see WorldSetup class). A 
 	similar way was previously used for Sokoban levels and is now used also for 
 	all other scenarios as well.
-* Ability to save the current scenario set-up to a text file.
-* Support for multiple scenarios for one exercise: If a scenario text file contains
-	multile scenarios, a drop-down box is displayed at startup to choose one of the
-	scenarios. 
+* Ability to save the current WorldSetup set-up to a text file.
+* Support for multiple scenarios for one exercise: If a WorldSetup text file contains
+	multile WorldSetups, a drop-down box is displayed at startup to choose one of the
+	WorldSetups. 
 * Added a title in the title bar.
-* Disable context menu for non-developer mode.
-* Changed the naming of scenario to world setup. "Scenario" was confusing because 
-	in Greenfoot projects are also called scenarios.
-
+* Added Kara icon to frame.
+* Disable context menu for non-developer mode in sokoban.
 
 ## GameGridKara 1.3.3 
 
