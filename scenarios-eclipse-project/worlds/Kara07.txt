@@ -1,8 +1,0 @@
-World: Kara 07 Around Tree 
-X: 10
-Y: 10
-
-
-
-
-@ # #  #.

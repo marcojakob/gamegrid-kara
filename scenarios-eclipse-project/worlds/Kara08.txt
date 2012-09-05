@@ -1,8 +1,0 @@
-World: Kara 08 Around Tree with Method
-X: 10
-Y: 10
-
-
-
-
-@ # #  #.

@@ -24,9 +24,6 @@
 		<copy todir="${targetFolder}/images">
 			<fileset dir="images" />
 		</copy>
-		<copy todir="${targetFolder}/worlds">
-			<fileset dir="worlds" />
-		</copy>
 	</target>
 
 	<target name="jar" description="Package into JAR">
@@ -89,18 +86,20 @@
 		<mkdir dir="${targetProjectsFolder}/${projectExercises}" />
 		<mkdir dir="${targetProjectsFolder}/${projectSolutions}" />
 
+		<!-- Copy exercise to targetProjects -->
 		<copy todir="${targetProjectsFolder}/${projectExercises}">
-			<fileset dir="${targetFolder}" excludes="*Boxxle*.*"/>
+			<fileset dir="${targetFolder}" />
 		</copy>
 		<copy todir="${targetProjectsFolder}/${projectExercises}/src">
-			<fileset dir="src-${chapter}" includes="**/exercise/**" />
+			<fileset dir="src-${chapter}" excludes="**/*Solution*.*, **/*Boxxle*.*" />
 		</copy>
 
+		<!-- Copy solutions to targetProjects -->
 		<copy todir="${targetProjectsFolder}/${projectSolutions}">
 			<fileset dir="${targetFolder}" />
 		</copy>
 		<copy todir="${targetProjectsFolder}/${projectSolutions}/src">
-			<fileset dir="src-${chapter}" includes="**/solution/**" />
+			<fileset dir="src-${chapter}" />
 		</copy>
 
 		<antcall target="doCreateClasspathAndProject">
@@ -110,7 +109,7 @@
 			<param name="projectName" value="${projectSolutions}" />
 		</antcall>
 
-		<!-- Copying alternative skin to solutions if desired -->
+		<!-- Copying alternative skin to solutions if skinIncludes is set to "*.*" -->
 		<copy todir="${targetProjectsFolder}/${projectSolutions}/images" overwrite="true">
 			<fileset dir="${basedir}/skin" includes="${skinIncludes}" />
 		</copy>
