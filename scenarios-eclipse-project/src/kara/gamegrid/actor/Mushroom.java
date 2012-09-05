@@ -26,7 +26,7 @@ public class Mushroom extends Actor {
 	 *            if true, the on-target-image is used.
 	 */
 	public Mushroom(boolean onTarget) {
-		super(WorldImages.MUSHROOM, WorldImages.MUSHROOM_ON_TARGET);
+		super(WorldImages.ICON_MUSHROOM, WorldImages.ICON_MUSHROOM_ON_TARGET);
 		if (onTarget) {
 			showOnTargetImage();
 		}

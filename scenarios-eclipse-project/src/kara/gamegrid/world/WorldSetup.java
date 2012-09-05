@@ -217,36 +217,36 @@ public class WorldSetup {
 			for (int y = 0; y < height; y++) {
 				switch (this.getActorTypeAt(x, y)) {
 				case WorldSetup.KARA:
-					img.drawImage(WorldImages.KARA, 
+					img.drawImage(WorldImages.ICON_KARA, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
 				case WorldSetup.TREE:
-					img.drawImage(WorldImages.TREE, 
+					img.drawImage(WorldImages.ICON_TREE, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
 				case WorldSetup.LEAF:
-					img.drawImage(WorldImages.LEAF, 
+					img.drawImage(WorldImages.ICON_LEAF, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
 				case WorldSetup.MUSHROOM:
-					img.drawImage(WorldImages.MUSHROOM, 
+					img.drawImage(WorldImages.ICON_MUSHROOM, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
 				case WorldSetup.MUSHROOM_LEAF:
-					img.drawImage(WorldImages.LEAF, 
+					img.drawImage(WorldImages.ICON_LEAF, 
 							x * cellSize + 10, y * cellSize);
-					img.drawImage(WorldImages.MUSHROOM_ON_TARGET, 
+					img.drawImage(WorldImages.ICON_MUSHROOM_ON_TARGET, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
 				case WorldSetup.KARA_LEAF:
-					img.drawImage(WorldImages.LEAF, 
+					img.drawImage(WorldImages.ICON_LEAF, 
 							x * cellSize + 10, y * cellSize);
-					img.drawImage(WorldImages.KARA, 
+					img.drawImage(WorldImages.ICON_KARA, 
 							x * cellSize + 10, y * cellSize);
 					break;
 				}

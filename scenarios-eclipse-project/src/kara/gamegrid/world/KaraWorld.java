@@ -132,7 +132,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		this.karaClass = karaClass;
 		createFieldBackground();
 		setTitle(karaClass.getSimpleName());
-		getFrame().setIconImage(WorldImages.KARA);
+		getFrame().setIconImage(WorldImages.ICON_KARA);
 		
 		// listen for right click --> context menu
 		addMouseListener(this, GGMouse.rClick);
@@ -198,7 +198,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		GGTileMap tileMap = createTileMap(getNbHorzCells(), getNbVertCells(), getCellSize(), getCellSize());
 		for (int x = 0; x < getNbHorzCells(); x++) {
 			for (int y = 0; y < getNbVertCells(); y++) {
-				tileMap.setImage(WorldImages.BACKGROUND_FIELD_PATH, x, y);
+				tileMap.setImage(WorldImages.ICON_BACKGROUND_FIELD_PATH, x, y);
 			}
 		}
 		tileMap.setPosition(new Point(1, 1));
@@ -671,7 +671,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		private void createNewItems() {
 			if (world.canAddActor(Tree.class, location)) {
 				JMenuItem newTree = new JMenuItem("new Tree()", new ImageIcon(
-						WorldImages.TREE));
+						WorldImages.ICON_TREE));
 				newTree.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -685,7 +685,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 
 			if (world.canAddActor(Leaf.class, location)) {
 				JMenuItem newLeaf = new JMenuItem("new Leaf()", new ImageIcon(
-						WorldImages.LEAF));
+						WorldImages.ICON_LEAF));
 				newLeaf.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -699,7 +699,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 
 			if (world.canAddActor(Mushroom.class, location)) {
 				JMenuItem newMushroom = new JMenuItem("new Mushroom()",
-						new ImageIcon(WorldImages.MUSHROOM));
+						new ImageIcon(WorldImages.ICON_MUSHROOM));
 				newMushroom.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -713,7 +713,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 
 			if (world.canAddActor(Kara.KaraDelegate.class, location)) {
 				JMenuItem newMyKara = new JMenuItem("new MyKara()", new ImageIcon(
-						WorldImages.KARA));
+						WorldImages.ICON_KARA));
 				newMyKara.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -803,7 +803,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		 */
 		private void createRemoveItem() {
 			JMenuItem removeItem = new JMenuItem("Remove", new ImageIcon(
-					WorldImages.GENERAL_DELETE));
+					WorldImages.ICON_DELETE));
 			removeItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -820,7 +820,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		 */
 		private void createInspectItem() {
 			JMenuItem inspectItem = new JMenuItem("Inspect", new ImageIcon(
-					WorldImages.GENERAL_INSPECT));
+					WorldImages.ICON_INSPECT));
 			inspectItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -842,7 +842,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		private void createSaveTheWorldItems() {
 			JMenuItem printToConsoleItem = new JMenuItem(
 					"Print World Setup to Console", new ImageIcon(
-							WorldImages.GENERAL_CONSOLE));
+							WorldImages.ICON_CONSOLE));
 			printToConsoleItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -855,7 +855,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			
 			JMenuItem saveToFileItem = new JMenuItem(
 					"Save World Setup to File", new ImageIcon(
-							WorldImages.GENERAL_SAVE));
+							WorldImages.ICON_SAVE));
 			saveToFileItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

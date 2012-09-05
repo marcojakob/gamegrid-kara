@@ -14,7 +14,7 @@ public class Tree extends Actor {
 	 * Constructor.
 	 */
 	public Tree() {
-		super(WorldImages.TREE);
+		super(WorldImages.ICON_TREE);
 	}
 	
 	@Override

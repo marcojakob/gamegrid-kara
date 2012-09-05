@@ -14,7 +14,7 @@ public class Leaf extends Actor {
 	 * Constructor.
 	 */
 	public Leaf() {
-		super(WorldImages.LEAF);
+		super(WorldImages.ICON_LEAF);
 	}
 	
 	@Override

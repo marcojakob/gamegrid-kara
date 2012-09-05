@@ -27,21 +27,21 @@ public class WorldImages {
 	private static final String DEFAULT_IMAGE_PATH = "default_images";
 	
 	// background icon
-	public static final String BACKGROUND_FIELD_PATH = loadPath("field.png");
-	public static final BufferedImage BACKGROUND_FIELD = loadImage("field.png");
+	public static final String ICON_BACKGROUND_FIELD_PATH = loadPath("field.png");
+	public static final BufferedImage ICON_BACKGROUND_FIELD = loadImage("field.png");
 	
 	// all actor icons
-	public static final BufferedImage LEAF = loadImage("leaf.png");
-	public static final BufferedImage MUSHROOM = loadImage("mushroom.png");
-	public static final BufferedImage MUSHROOM_ON_TARGET = loadImage("mushroom_on_target.png");
-	public static final BufferedImage TREE = loadImage("tree.png");
-	public static final BufferedImage KARA = loadImage("kara.png");
+	public static final BufferedImage ICON_LEAF = loadImage("leaf.png");
+	public static final BufferedImage ICON_MUSHROOM = loadImage("mushroom.png");
+	public static final BufferedImage ICON_MUSHROOM_ON_TARGET = loadImage("mushroom_on_target.png");
+	public static final BufferedImage ICON_TREE = loadImage("tree.png");
+	public static final BufferedImage ICON_KARA = loadImage("kara.png");
 	
 	// general icons
-	public static final BufferedImage GENERAL_CONSOLE = loadImage("crystal_console.png");
-	public static final BufferedImage GENERAL_DELETE = loadImage("crystal_delete.png");
-	public static final BufferedImage GENERAL_INSPECT = loadImage("crystal_inspect.png");
-	public static final BufferedImage GENERAL_SAVE = loadImage("crystal_save.png");
+	public static final BufferedImage ICON_CONSOLE = loadImage("crystal_console.png");
+	public static final BufferedImage ICON_DELETE = loadImage("crystal_delete.png");
+	public static final BufferedImage ICON_INSPECT = loadImage("crystal_inspect.png");
+	public static final BufferedImage ICON_SAVE = loadImage("crystal_save.png");
 	
 	// Sokoban Game images
 	public static final String ICON_START_SCREEN_PATH = loadPath("start_screen.png");
