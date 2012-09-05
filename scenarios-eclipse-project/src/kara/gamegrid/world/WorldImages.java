@@ -35,7 +35,8 @@ public class WorldImages {
 	public static final BufferedImage ICON_MUSHROOM = loadImage("mushroom.png");
 	public static final BufferedImage ICON_MUSHROOM_ON_TARGET = loadImage("mushroom_on_target.png");
 	public static final BufferedImage ICON_TREE = loadImage("tree.png");
-	public static final BufferedImage ICON_KARA = loadImage("kara.png");
+	public static final BufferedImage ICON_KARA = loadImage("kara_gray.png");
+	public static final BufferedImage ICON_MY_KARA = loadImage("kara.png");
 	
 	// general icons
 	public static final BufferedImage ICON_CONSOLE = loadImage("crystal_console.png");

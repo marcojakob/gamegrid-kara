@@ -87,8 +87,12 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	 * Loads the Kara World from the specified world setup file <br>
 	 * <i>Laedt die Kara Welt von der angegebenen Datei</i>
 	 * 
-	 * @param worldFile The path to the world setup file, relative to the kara class.
-	 * @param karaClass The class where Kara is programmed in.
+	 * @param worldFile
+	 *            The filename of the world setup file, relative to the class,
+	 *            relative to the package root or relative to the project root.
+	 *            Wildcards (? or *) may be used.
+	 * @param karaClass
+	 *            The class where Kara is programmed in.
 	 */
 	public KaraWorld(String worldFile,  Class<? extends Kara> karaClass) {
 		// load world setup from file. the package name 
@@ -132,7 +136,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		this.karaClass = karaClass;
 		createFieldBackground();
 		setTitle(karaClass.getSimpleName());
-		getFrame().setIconImage(WorldImages.ICON_KARA);
+		getFrame().setIconImage(WorldImages.ICON_MY_KARA);
 		
 		// listen for right click --> context menu
 		addMouseListener(this, GGMouse.rClick);
@@ -142,11 +146,15 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 	
 	/**
-	 * Loads the world setup from the specified file. If it cannot be found, a warning
-	 * message is displayed and a default world setup is loaded.
+	 * Loads the world setup from the specified file. If it cannot be found, a
+	 * warning message is displayed and a default world setup is loaded.
 	 * 
-	 * @param worldFile The path to the world setup file, relative to the kara class.
-	 * @param karaClass The class where Kara is programmed in.
+	 * @param worldFile
+	 *            The filename of the world setup file, relative to the class,
+	 *            relative to the package root or relative to the project root.
+	 *            Wildcards (? or *) may be used.
+	 * @param karaClass
+	 *            The class where Kara is programmed in.
 	 * @return
 	 */
 	private static WorldSetup loadWorldSetupFromFile(String worldFile, Class<? extends Kara> karaClass) {
@@ -713,7 +721,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 
 			if (world.canAddActor(Kara.KaraDelegate.class, location)) {
 				JMenuItem newMyKara = new JMenuItem("new MyKara()", new ImageIcon(
-						WorldImages.ICON_KARA));
+						WorldImages.ICON_MY_KARA));
 				newMyKara.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -859,7 +867,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			saveToFileItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FileUtil.saveToFile(toASCIIText());
+					FileUtil.saveToFileWithDialog(toASCIIText());
 				}
 			});
 			add(saveToFileItem);

@@ -35,7 +35,7 @@ public class MyKaraSolution extends Kara {
 	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		KaraWorld world = new KaraWorld("World12AfraidOfTunnel.txt", MyKaraSolution.class);
+		KaraWorld world = new KaraWorld("World*.txt", MyKaraSolution.class);
 		world.show();
 	}
 }

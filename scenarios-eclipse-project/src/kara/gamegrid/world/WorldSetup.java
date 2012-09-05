@@ -5,8 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,12 +17,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import kara.gamegrid.actor.Kara.KaraDelegate;
 import kara.gamegrid.actor.Leaf;
 import kara.gamegrid.actor.Mushroom;
 import kara.gamegrid.actor.Tree;
-import kara.gamegrid.actor.Kara.KaraDelegate;
-
-
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGBitmap;
 import ch.aplu.jgamegrid.GGPath;
@@ -217,7 +215,7 @@ public class WorldSetup {
 			for (int y = 0; y < height; y++) {
 				switch (this.getActorTypeAt(x, y)) {
 				case WorldSetup.KARA:
-					img.drawImage(WorldImages.ICON_KARA, 
+					img.drawImage(WorldImages.ICON_MY_KARA, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
@@ -246,7 +244,7 @@ public class WorldSetup {
 				case WorldSetup.KARA_LEAF:
 					img.drawImage(WorldImages.ICON_LEAF, 
 							x * cellSize + 10, y * cellSize);
-					img.drawImage(WorldImages.ICON_KARA, 
+					img.drawImage(WorldImages.ICON_MY_KARA, 
 							x * cellSize + 10, y * cellSize);
 					break;
 				}
@@ -294,62 +292,66 @@ public class WorldSetup {
 	}
 	
 	/**
-	 * Parses (one or many) world setups from the specified file.
-	 * The default width and height attribute keys are used to get width
-	 * and height from the file. If those attributes are not defined in the
-	 * text file, width and height are determined from the actor positions.
+	 * Parses (one or many) world setups from the specified file. The default
+	 * width and height attribute keys are used to get width and height from the
+	 * file. If those attributes are not defined in the text file, width and
+	 * height are determined from the actor positions.
 	 * 
-	 * @param file
-	 *            The filename of the world setup file.
+	 * @param fileName
+	 *            The filename of the world setup file, relative to the package
+	 *            root or relative to the project root. Wildcards (? or *) may
+	 *            be used.
 	 * @param titleKey
 	 *            The key to recognize the start of the world setup inside the
-	 *            file, e.g. "World:". The characters following the key will
-	 *            be used as title.
+	 *            file, e.g. "World:". The characters following the key will be
+	 *            used as title.
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String file, String titleKey, 
+	public static WorldSetup[] parseFromFile(String fileName, String titleKey, 
 			String... attributeKeys) {
-		return parseFromFile(file, null, titleKey, -1, -1, attributeKeys);		
+		return parseFromFile(fileName, null, titleKey, -1, -1, attributeKeys);		
 	}
 	
 	/**
-	 * Parses (one or many) world setups from the specified file.
-	 * The default width and height attribute keys are used to get width
-	 * and height from the file. If those attributes are not defined in the
-	 * text file, width and height are determined from the actor positions.
+	 * Parses (one or many) world setups from the specified file. The default
+	 * width and height attribute keys are used to get width and height from the
+	 * file. If those attributes are not defined in the text file, width and
+	 * height are determined from the actor positions.
 	 * 
-	 * @param file
-	 *            The filename of the world setup file, possibly relative to the
-	 *            clazz.
+	 * @param fileName
+	 *            The filename of the world setup file, relative to the class,
+	 *            relative to the package root or relative to the project root.
+	 *            Wildcards (? or *) may be used.
 	 * @param clazz
 	 *            The class used to get the relative path to the file or
-	 *            <code>null</code> if the file should be retrieved relative to the 
-	 *            jar root or project root.
+	 *            <code>null</code> if the file should be retrieved relative to
+	 *            the jar root or project root.
 	 * @param titleKey
 	 *            The key to recognize the start of the world setup inside the
-	 *            file, e.g. "World:". The characters following the key will
-	 *            be used as title.
+	 *            file, e.g. "World:". The characters following the key will be
+	 *            used as title.
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String file, Class<?> clazz, String titleKey, 
+	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz, String titleKey, 
 			String... attributeKeys) {
-		return parseFromFile(file, clazz, titleKey, -1, -1, attributeKeys);		
+		return parseFromFile(fileName, clazz, titleKey, -1, -1, attributeKeys);		
 	}
 	
 	/**
 	 * Parses (one or many) world setups from the specified file.
 	 * 
-	 * @param file
-	 *            The filename of the world setup file, possibly relative to the
-	 *            clazz.
+	 * @param fileName
+	 *            The filename of the world setup file, relative to the class,
+	 *            relative to the package root or relative to the project root.
+	 *            Wildcards (? or *) may be used.
 	 * @param clazz
 	 *            The class used to get the relative path to the file or
-	 *            <code>null</code> if the file should be retrieved relative to the 
-	 *            jar root or project root.
+	 *            <code>null</code> if the file should be retrieved relative to
+	 *            the jar root or project root.
 	 * @param titleKey
 	 *            The key to recognize the start of the world setup inside the
 	 *            file, e.g. "World:". The characters following the key will be
@@ -364,28 +366,14 @@ public class WorldSetup {
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String file, Class<?> clazz, String titleKey, int worldWidth, 
+	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz, String titleKey, int worldWidth, 
 			int worldHeight, String... attributeKeys) {
 		List<WorldSetup> result = new ArrayList<WorldSetup>();
 
 		try {
-			InputStream stream = null;
-			// Option 1: try to get file relative to class
-			if (clazz != null) {
-				stream = clazz.getResourceAsStream(file);
-			}
+			File file = findFile(fileName, clazz);
 			
-			// Option 2: try to get file relative to class root (may be inside jar)
-			if (stream == null) {
-				stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
-			}
-			
-			// Option 3: try to get file relative to project root (outside of jar)
-			if (stream == null) {
-				stream = new FileInputStream(file);
-			}
-			
-			BufferedReader input = new BufferedReader(new InputStreamReader(stream));
+			BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			
 			String line;
 			
@@ -461,6 +449,53 @@ public class WorldSetup {
 		}
 
 		return result.toArray(new WorldSetup[result.size()]);
+	}
+	
+	/**
+	 * Tries to load the specified file either relative to the class,
+	 * relative to the package root or relative to the project root.
+	 * 
+	 * @param fileName
+	 *            The filename of the world setup file, possibly relative to the
+	 *            clazz. Wildcards (? or *) may be used.
+	 * @param clazz
+	 *            The class used to get the relative path to the file or
+	 *            <code>null</code> if the file should be retrieved relative to the 
+	 *            jar root or project root.
+	 * @return the file or <code>null</code> if none could be found.
+	 */
+	private static File findFile(String fileName, Class<?> clazz) {
+		try {
+			// Option 1: try to get file relative to class
+			if (clazz != null) {
+				File dir = new File(clazz.getResource(".").toURI());
+				List<File> files = FileUtil.scan(dir, fileName);
+				if (!files.isEmpty()) {
+					// Note: only get the first match
+					return files.get(0);
+				}
+			}
+			
+			// Option 2: try to get file relative to package root (may be inside jar)
+			File dir2 = new File(Thread.currentThread().getContextClassLoader().getResource(".").toURI());
+			List<File> files2 = FileUtil.scan(dir2, fileName);
+			if (!files2.isEmpty()) {
+				// Note: only get the first match
+				return files2.get(0);
+			}
+			
+			// Option 3: try to get file relative to project root (outside of jar)
+			File dir3 = new File(".");
+			List<File> files3 = FileUtil.scan(dir3, fileName);
+			if (!files3.isEmpty()) {
+				// Note: only get the first match
+				return files3.get(0);
+			}
+		} catch (URISyntaxException e) {
+			// do nothing
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -680,7 +715,7 @@ public class WorldSetup {
 	}
 
 	/**
-	 * Utility class for saving a file.
+	 * Utility class for loading and saving files.
 	 */
 	public static class FileUtil {
 		
@@ -690,7 +725,7 @@ public class WorldSetup {
 		 * 
 		 * @param content Content to write to the file
 		 */
-		public static void saveToFile(String content) {
+		public static void saveToFileWithDialog(String content) {
 			File f = null;
 			try {
 				f = new File(new File(".").getCanonicalPath());
@@ -735,6 +770,57 @@ public class WorldSetup {
 				}
 				GGPath.writeTextFile(chosenFile, content, false);
 			}
+		}
+		
+		/**
+		 * Scans through the directory using wild-card patterns. All files matching the 
+		 * patterns are returned.
+		 * <ul>
+		 * <li>Use ? for one or no unknown character</li>
+		 * <li>Use * for zero or more unknown characters</li>
+		 * </ul>
+		 * 
+		 * @param dir the directory
+		 * @param patterns the patterns that should be matched containing wild-cards.
+		 * @return
+		 */
+		public static List<File> scan(File dir, String... patterns) {
+			List<File> result = new ArrayList<File>();
+			if (!dir.isDirectory()) {
+				return result;
+			}
+			
+			List<String> convertedPatterns = new ArrayList<String>();
+			for (String p : patterns) {
+				p = p.replace(".", "\\.");
+				p = p.replace("?", ".?");
+				p = p.replace("*", ".*");
+				convertedPatterns.add(p);
+			}
+
+			File[] filesInDir = dir.listFiles();
+			for (File currentFile : filesInDir) {
+				if (matches(currentFile, convertedPatterns)) {
+					result.add(currentFile);
+				}
+			}
+			return result;
+		}
+		
+		/**
+		 * Returns true if the filename of the file matches one of the patterns.
+		 * 
+		 * @param file
+		 * @param convertedPatterns
+		 * @return
+		 */
+		private static boolean matches(File file, List<String> convertedPatterns) {
+			for (String pattern : convertedPatterns) {
+				if (file.getName().matches(pattern)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

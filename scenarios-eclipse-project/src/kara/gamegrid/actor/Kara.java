@@ -356,7 +356,7 @@ public abstract class Kara {
 		 * @param actListener The caller that wants to be informed about act calls.
 		 */
 		public KaraDelegate(Kara kara) {
-			super(true, WorldImages.ICON_KARA);
+			super(true, WorldImages.ICON_MY_KARA);
 			this.kara = kara;
 		}
 		
