@@ -1,4 +1,4 @@
-Scenario: Kara 35 Baking a Cake 
+World: Kara 37 Candles for Age 
 X: 25
 Y: 20
 

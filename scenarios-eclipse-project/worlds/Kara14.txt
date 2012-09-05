@@ -1,0 +1,5 @@
+World: Kara 14 Put Leaf Track 
+X: 9
+Y: 3
+
+@ ..  . #

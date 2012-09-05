@@ -87,11 +87,11 @@ public class Kara26Sokoban extends KaraSokoban {
 	
 	
 	/**
-	 * The main-method is the start of the program where the Kara scenario is loaded <br>
-	 * <i>Die main-Methode ist der Start des Programms, wo das Kara Szenario geladen wird</i>
+	 * The main-method is the start of the program where the Kara world is loaded <br>
+	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		GameScreen game = new GameScreen("scenarios/Sokoban_Levels_Boxxle_1.txt", Kara26Sokoban.class);
+		GameScreen game = new GameScreen("worlds/Sokoban_Levels_Boxxle_1.txt", Kara26Sokoban.class);
 		game.setDeveloperMode(false);
 		game.setHighscoreEnabled(true);
 		game.show();

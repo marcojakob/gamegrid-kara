@@ -1,4 +1,4 @@
-Scenario: Kara 23 Kara in a Box II 
+World: Kara 23 Kara in a Box II 
 X: 9
 Y: 9
 #########

@@ -523,11 +523,11 @@ public class GameScreen extends KaraWorld {
 	
 	
 	/**
-	 * Creates a Scenario from all the actors in the world.
+	 * Creates an ASCII-representation of all the actors in the world.
 	 * 
-	 * @return
+	 * @return the world as ASCII text
 	 */
-	protected String scenarioToASCIIText() {
+	protected String toASCIIText() {
 		return Level.createFromActors(getActors(), 0, "XXXX").toASCIIText(false);
 	}
 }

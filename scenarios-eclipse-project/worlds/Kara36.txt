@@ -1,4 +1,4 @@
-Scenario: Kara 38 Layered Cake
+World: Kara 36 Candles on Cake 
 X: 25
 Y: 20
 

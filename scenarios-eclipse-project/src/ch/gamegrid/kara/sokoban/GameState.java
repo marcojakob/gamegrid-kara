@@ -31,7 +31,7 @@ public class GameState extends ScreenState {
 		Level level = gameScreen.getCurrentLevel();
 		
 		if (level != null) {
-			gameScreen.initActorsFromScenario(level);
+			gameScreen.initActorsFromWorldSetup(level);
 		}
 	}
 

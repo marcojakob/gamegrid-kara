@@ -36,7 +36,7 @@ import ch.gamegrid.kara.util.FileUtil;
 
 /**
  * The World class sets up the grid for all the Actors. The initial actors are
- * placed inside the World according to a specified Scenario.
+ * placed inside the World according to a specified {@link WorldSetup}.
  * 
  * @author Marco Jakob (majakob@gmx.ch)
  */
@@ -49,8 +49,8 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	public static final Color DEFAULT_BACKGROUND_COLOR = new Color(180, 230, 180);
 	public static final Color DEFAULT_GRID_COLOR = new Color(170, 170, 170);
 	
-	public static final String SCENARIO_TITLE_KEY = "Scenario:";
-	public static final String SCENARIO_DIRECTION_KEY = "Kara:";
+	public static final String WORLD_SETUP_TITLE_KEY = "World:";
+	public static final String KARA_DIRECTION_KEY = "Kara:";
 	public static final String DIRECTION_RIGHT = "right";
 	public static final String DIRECTION_DOWN = "down";
 	public static final String DIRECTION_LEFT = "left";
@@ -79,47 +79,48 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	private MouseSettings mouseDragAndDrop = MouseSettings.DISABLED_WHEN_RUNNING;
 	private MouseSettings mouseContextMenu = MouseSettings.DISABLED_WHEN_RUNNING;
 	
-    private Scenario scenario;
+    private WorldSetup worldSetup;
     
     private int resetCountDown = -1;
     
 	/**
-	 * Loads the Kara World from the specified scenario file <br>
+	 * Loads the Kara World from the specified world setup file <br>
 	 * <i>Laedt die Kara Welt von der angegebenen Datei</i>
 	 * 
-	 * @param scenarioFile The relative path to the scenario file
+	 * @param worldFile The relative path to the world setup file
 	 * @param karaClass The class where Kara is programmed in.
 	 */
-	public KaraWorld(String scenarioFile,  Class<? extends Kara> karaClass) {
-		this(loadScenarioFromFile(scenarioFile), karaClass);
+	public KaraWorld(String worldFile,  Class<? extends Kara> karaClass) {
+		this(loadWorldSetupFromFile(worldFile), karaClass);
 	}
 	
 	/**
-	 * Loads the scenario from the specified file. If it cannot be found, a warning
-	 * message is displayed and a default scenario is loaded.
+	 * Loads the world setup from the specified file. If it cannot be found, a warning
+	 * message is displayed and a default world setup is loaded.
 	 * 
-	 * @param scenarioFile
+	 * @param worldFile
 	 * @return
 	 */
-	private static Scenario loadScenarioFromFile(String scenarioFile) {
-		Scenario[] scenarios = Scenario.parseFromFile(scenarioFile, SCENARIO_TITLE_KEY, SCENARIO_DIRECTION_KEY);
-		Scenario result = null;
+	private static WorldSetup loadWorldSetupFromFile(String worldFile) {
+		WorldSetup[] worldSetups = WorldSetup.parseFromFile(worldFile, WORLD_SETUP_TITLE_KEY, KARA_DIRECTION_KEY);
+		WorldSetup result = null;
 		
-		if (scenarios.length == 1) {
-			result = scenarios[0];
-		} else if (scenarios.length > 1) {
-			// User must choose scenario
-		    result = (Scenario) JOptionPane.showInputDialog(null, 
-		    		"<html>Please Choose a Scenario: <p><i>Bitte waehle ein Szenario:</i>", 
-		    		"Choose Scenario",
+		if (worldSetups.length == 1) {
+			result = worldSetups[0];
+		} else if (worldSetups.length > 1) {
+			// User must choose from a list of world setups
+		    result = (WorldSetup) JOptionPane.showInputDialog(null, 
+		    		"<html>Please Choose a World: <p><i>Bitte waehle eine Welt:</i>", 
+		    		"Choose World",
 		    		JOptionPane.QUESTION_MESSAGE, null,
-		    		scenarios, // Array of choices
-		    		scenarios[0]); // Initial choice
+		    		worldSetups, // Array of choices
+		    		worldSetups[0]); // Initial choice
 		} else {
-			String message = "<html>" + "Could not load Scenario from file: <p><i>" 
-					+ "Konnte Szenario nicht laden von der Datei: "
-					+ "</i><p><p>" + scenarioFile 
-					+ "<p><p>(A Scenario-file must start with \"Scenario:\")</html>";
+			String message = "<html>" + "Could not load world setup from file: <p><i>" 
+					+ "Konnte keine Welt laden von der Datei: "
+					+ "</i><p><p>" + worldFile 
+					+ "<p><p>(A world-file must start with \"" + WORLD_SETUP_TITLE_KEY 
+					+ "\")</html>";
 
 			JOptionPane.showMessageDialog(null, message, "Warning",
 					JOptionPane.WARNING_MESSAGE);
@@ -128,8 +129,8 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		if (result != null) {
 			return result;
 		} else {
-			// return a default scenario
-			return new Scenario.Builder(SCENARIO_TITLE_KEY)
+			// return a default world setup
+			return new WorldSetup.Builder(WORLD_SETUP_TITLE_KEY)
 			.setWidth(10)
 			.setHeight(10)
 			.setTitle("Kara Default")
@@ -139,20 +140,22 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 
     
 	/**
-	 * Creates a world for Kara with the specified scenario.
+	 * Creates a world for Kara with the specified world setup.
 	 * 
-	 * @param scenarioFile
+	 * @param worldSetup
+	 *            The world setup to load.
+	 * 
 	 * @param karaClass
 	 *            The class implementing Kara, e.g. MyKara.class.
 	 */
-	public KaraWorld(Scenario scenario, Class<? extends Kara> karaClass) {
+	public KaraWorld(WorldSetup worldSetup, Class<? extends Kara> karaClass) {
 		// Create the new world
-		this(scenario.getWidth(), scenario.getHeight(), karaClass);
-		this.scenario = scenario;
+		this(worldSetup.getWidth(), worldSetup.getHeight(), karaClass);
+		this.worldSetup = worldSetup;
 		
-		setTitle(scenario.getTitle());
+		setTitle(worldSetup.getTitle());
 		
-		// since we have a scenario, we call prepare() here
+		// since we have a world setup, we call prepare() here
 		prepare();
 	}
 	
@@ -210,15 +213,15 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 	
 	/**
-	 * Prepares the world, i.e. creates all initial actors. If a scenario is
+	 * Prepares the world, i.e. creates all initial actors. If a world setup is
 	 * available, it is loaded.
 	 * <p>
 	 * This method may be overridden by subclasses to provide their own means to
 	 * initialize actors, e.g. by calling {@link #addObject()}.
 	 */
 	public void prepare() {
-		if (scenario != null) {
-			initActorsFromScenario(scenario);
+		if (worldSetup != null) {
+			initActorsFromWorldSetup(worldSetup);
 		}
 	}
 	
@@ -284,12 +287,13 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 
 	/**
-	 * Initializes the actors based on actor information in the specified Scenario.
+	 * Initializes the actors based on actor information in the specified
+	 * {@link WorldSetup}.
 	 */
-	public void initActorsFromScenario(Scenario scenario) {
-		for (int y = 0; y < scenario.getHeight(); y++) {
-			for (int x = 0; x < scenario.getWidth(); x++) {
-				switch (scenario.getActorTypeAt(x, y)) {
+	public void initActorsFromWorldSetup(WorldSetup worldSetup) {
+		for (int y = 0; y < worldSetup.getHeight(); y++) {
+			for (int x = 0; x < worldSetup.getWidth(); x++) {
+				switch (worldSetup.getActorTypeAt(x, y)) {
 				case Level.KARA:
 					addObject(createNewKaraInstance(), x, y);
 					break;
@@ -314,7 +318,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			}
 		}
 		
-		String karaDirection = scenario.getAttribute(SCENARIO_DIRECTION_KEY);
+		String karaDirection = worldSetup.getAttribute(KARA_DIRECTION_KEY);
 		if (karaDirection != null) {
 			switch (karaDirection.toLowerCase()) {
 			case DIRECTION_RIGHT:
@@ -421,13 +425,13 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 	
 	/**
-	 * Creates a Scenario from all the actors in the world.
+	 * Creates an ASCII-representation of all the actors in the world.
 	 * 
-	 * @return
+	 * @return the world as ASCII text
 	 */
-	protected String scenarioToASCIIText() {
-		return Scenario.createFromActors(getActors(), getNbHorzCells(), getNbVertCells(),
-				SCENARIO_TITLE_KEY).toASCIIText(true);
+	protected String toASCIIText() {
+		return WorldSetup.createFromActors(getActors(), getNbHorzCells(), getNbVertCells(),
+				WORLD_SETUP_TITLE_KEY).toASCIIText(true);
 	}
 
 	/**
@@ -839,7 +843,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(";-------------------------- START --------------------------");
-					System.out.println(scenarioToASCIIText());
+					System.out.println(toASCIIText());
 					System.out.println(";--------------------------- END ---------------------------\n");
 				}
 			});
@@ -851,7 +855,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			saveToFileItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FileUtil.saveToFile(scenarioToASCIIText());
+					FileUtil.saveToFile(toASCIIText());
 				}
 			});
 			add(saveToFileItem);

@@ -1,3 +1,0 @@
-Scenario: Kara 01 First Steps
-X: 10
-Y: 10

@@ -1,0 +1,24 @@
+World: Kara 18a Around Tree III 
+X: 10
+Y: 2
+
+@# ### #.
+
+World: Kara 18b Around Tree III 
+X: 10
+Y: 2
+
+@ ### ## .
+
+World: Kara 18c Around Tree III 
+X: 10
+Y: 2
+
+@########.
+
+World: Kara 18d Around Tree III 
+X: 10
+Y: 2
+
+   @.#
+

@@ -29,11 +29,11 @@ public class Kara19ClimbingUp extends Kara {
 	
 	
 	/**
-	 * The main-method is the start of the program where the Kara scenario is loaded <br>
-	 * <i>Die main-Methode ist der Start des Programms, wo das Kara Szenario geladen wird</i>
+	 * The main-method is the start of the program where the Kara world is loaded <br>
+	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		KaraWorld world = new KaraWorld("scenarios/Kara19.txt", Kara19ClimbingUp.class);
+		KaraWorld world = new KaraWorld("worlds/Kara19.txt", Kara19ClimbingUp.class);
 		world.show();
 	}
 }

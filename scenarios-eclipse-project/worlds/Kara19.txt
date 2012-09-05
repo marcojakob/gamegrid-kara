@@ -1,4 +1,4 @@
-Scenario: Kara 19a Climbing Up 
+World: Kara 19a Climbing Up 
 X: 8
 Y: 8
 
@@ -10,7 +10,7 @@ Y: 8
   ######
 @#######
 
-Scenario: Kara 19b Climbing Up 
+World: Kara 19b Climbing Up 
 X: 10
 Y: 10
 

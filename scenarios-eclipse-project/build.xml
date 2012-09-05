@@ -11,7 +11,7 @@
 	<property name="jarName">GameGridKara-${version}.jar</property>
 
 	
-	<target name="main" depends="prepareTarget, buildProjects" />
+	<target name="main" depends="prepareTarget, buildProjects, cleanTarget" />
 
 	<target name="prepareTarget" depends="copyToTarget, jar" />
 
@@ -24,8 +24,8 @@
 		<copy todir="${targetFolder}/images">
 			<fileset dir="images" />
 		</copy>
-		<copy todir="${targetFolder}/scenarios">
-			<fileset dir="scenarios" />
+		<copy todir="${targetFolder}/worlds">
+			<fileset dir="worlds" />
 		</copy>
 	</target>
 

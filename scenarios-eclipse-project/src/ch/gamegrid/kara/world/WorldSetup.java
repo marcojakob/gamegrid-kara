@@ -19,17 +19,17 @@ import ch.gamegrid.kara.actors.Mushroom;
 import ch.gamegrid.kara.actors.Tree;
 
 /**
- * A Scenario contains information about the world setup and the positions of
- * the actors in the world. A Scenario is immutable, i.e. after initialization
- * it cannot be changed. An immutable Scenario is easier to work with because we
- * can be sure that there will not be any side-effects if we make changes to
- * any actors. And we can always restore the initial Scenario.
+ * A WorldSetup contains information about the positions of the actors in the
+ * world. A WorldSetup is immutable, i.e. after initialization it cannot be
+ * changed. An immutable WorldSetup is easier to work with because we can be sure
+ * that there will not be any side-effects if we make changes to any actors. And
+ * we can always restore the initial WorldSetup.
  * <p>
- * Static helper methods are provided to create scenarios from a file and to
+ * Static helper methods are provided to create WorldSetups from a file and to
  * save them to a file. A text file can contain information for one or more
- * scenarios. A scenario text file must have the following structure:
+ * WorldSetup. A WorldSetup text file must have the following structure:
  * <p>
- * [titleKey]: Scenario Title<br>
+ * [titleKey]: World Setup Title<br>
  * [optionalAttribute1]: attribute<br>
  * [optionalAttribute2]: attribute<br>
  * [optionalAttributeN]: attribute<br>
@@ -51,7 +51,7 @@ import ch.gamegrid.kara.actors.Tree;
  * 
  * @author Marco Jakob (majakob@gmx.ch)
  */
-public class Scenario {
+public class WorldSetup {
 	public static final char UNDEFINED = '?';
 	public static final char EMPTY = ' ';
 	public static final char KARA = '@';
@@ -75,8 +75,8 @@ public class Scenario {
 	private final int height;
 	
 	/**
-	 * The key to recognize the start of the scenario inside the file, e.g.
-	 * "Scenario:". The characters following the key will be used as title.
+	 * The key to recognize the start of the WorldSetup inside the file, e.g.
+	 * "World:". The characters following the key will be used as title.
 	 */
 	private final String titleKey;
 	
@@ -93,13 +93,13 @@ public class Scenario {
 	/**
 	 * Constructor to be used by the Builder.
 	 */
-	private Scenario(Builder builder) {
+	private WorldSetup(Builder builder) {
 		this.width = builder.width;
 		this.height = builder.height;
 		this.titleKey = builder.titleKey;
 		this.title = builder.title;
 		
-		// copy values to make shure we have an immutable scenario
+		// copy values to make shure we have an immutable WorldSetup
 		for (Entry<String, String> entry : builder.attributes.entrySet()) {
 			this.attributes.put(entry.getKey(), entry.getValue());
 		}
@@ -111,10 +111,10 @@ public class Scenario {
 	/**
 	 * This is a "copy constructor".
 	 * 
-	 * @param scenario the scenario to copy into the new scenario.
+	 * @param worldSetup the WorldSetup to copy into the new WorldSetup.
 	 */
-	public Scenario(Scenario scenario) {
-		this(new Builder(scenario));
+	public WorldSetup(WorldSetup worldSetup) {
+		this(new Builder(worldSetup));
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class Scenario {
 	}
 	
 	/**
-	 * Returns the title of the scenario.
+	 * Returns the title of the world setup.
 	 * 
 	 * @return
 	 */
@@ -146,7 +146,7 @@ public class Scenario {
 	
 	/**
 	 * Returns the title key that is used to identify the title inside
-	 * the scenario text file.
+	 * the world setup text file.
 	 * 
 	 * @return
 	 */
@@ -196,7 +196,7 @@ public class Scenario {
 	}
 
 	/**
-	 * Returns an image representation of this level with all the actors.
+	 * Returns an image representation of this WorldSetup with all the actors.
 	 * 
 	 * @param cellSize The size of each cell of the grid.
 	 * @return
@@ -207,34 +207,34 @@ public class Scenario {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				switch (this.getActorTypeAt(x, y)) {
-				case Scenario.KARA:
+				case WorldSetup.KARA:
 					img.drawImage(WorldImages.KARA, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
-				case Scenario.TREE:
+				case WorldSetup.TREE:
 					img.drawImage(WorldImages.TREE, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
-				case Scenario.LEAF:
+				case WorldSetup.LEAF:
 					img.drawImage(WorldImages.LEAF, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
-				case Scenario.MUSHROOM:
+				case WorldSetup.MUSHROOM:
 					img.drawImage(WorldImages.MUSHROOM, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
-				case Scenario.MUSHROOM_LEAF:
+				case WorldSetup.MUSHROOM_LEAF:
 					img.drawImage(WorldImages.LEAF, 
 							x * cellSize + 10, y * cellSize);
 					img.drawImage(WorldImages.MUSHROOM_ON_TARGET, 
 							x * cellSize + 10, y * cellSize);
 					break;
 
-				case Scenario.KARA_LEAF:
+				case WorldSetup.KARA_LEAF:
 					img.drawImage(WorldImages.LEAF, 
 							x * cellSize + 10, y * cellSize);
 					img.drawImage(WorldImages.KARA, 
@@ -248,7 +248,7 @@ public class Scenario {
 	}
 
 	/**
-	 * Returns a ASCII String representation of this level.
+	 * Returns a ASCII String representation of this WorldSetup.
 	 * 
 	 * @param printWidthAndHeight
 	 *            if true, the width and height attributes are also added.
@@ -280,39 +280,39 @@ public class Scenario {
 	@Override
 	public String toString() {
 		// Just return the title. This is used for drop down box when user needs
-		// to choose between mutliple scenarios.
+		// to choose between mutliple world setups.
 		return getTitle();
 	}
 	
 	/**
-	 * Parses all the (one or many) scenarios from the specified file.
+	 * Parses (one or many) world setups from the specified file.
 	 * The default width and height attribute keys are used to get width
 	 * and height from the file. If those attributes are not defined in the
 	 * text file, width and height are determined from the actor positions.
 	 * 
 	 * @param file
-	 *            The filename of the scenario file.
-	 * @param scenarioTitleKey
-	 *            The key to recognize the start of the scenario inside the
-	 *            file, e.g. "Scenario:". The characters following the key will
+	 *            The filename of the world setup file.
+	 * @param titleKey
+	 *            The key to recognize the start of the world setup inside the
+	 *            file, e.g. "World:". The characters following the key will
 	 *            be used as title.
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
-	 * @return the scenarios as an array
+	 * @return the world setups as an array
 	 */
-	public static Scenario[] parseFromFile(String file, String scenarioTitleKey, 
+	public static WorldSetup[] parseFromFile(String file, String titleKey, 
 			String... attributeKeys) {
-		return parseFromFile(file, scenarioTitleKey, -1, -1, attributeKeys);		
+		return parseFromFile(file, titleKey, -1, -1, attributeKeys);		
 	}
 	
 	/**
-	 * Parses all the (one or many) scenarios from the specified file.
+	 * Parses (one or many) world setups from the specified file.
 	 * 
 	 * @param file
-	 *            The filename of the scenario file.
-	 * @param scenarioTitleKey
-	 *            The key to recognize the start of the scenario inside the
-	 *            file, e.g. "Scenario:". The characters following the key will
+	 *            The filename of the world setup file.
+	 * @param titleKey
+	 *            The key to recognize the start of the world setup inside the
+	 *            file, e.g. "World:". The characters following the key will
 	 *            be used as title.
 	 * @param worldWidth
 	 *            the width or -1 if it should be specified through width
@@ -322,11 +322,11 @@ public class Scenario {
 	 *            attribute or from height of actor lines in the file.
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
-	 * @return the scenarios as an array
+	 * @return the world setups as an array
 	 */
-	public static Scenario[] parseFromFile(String file, String scenarioTitleKey, int worldWidth, 
+	public static WorldSetup[] parseFromFile(String file, String titleKey, int worldWidth, 
 			int worldHeight, String... attributeKeys) {
-		List<Scenario> result = new ArrayList<Scenario>();
+		List<WorldSetup> result = new ArrayList<WorldSetup>();
 
 		try {
 			// 1. Option: try to get file inside jar
@@ -345,20 +345,20 @@ public class Scenario {
 			try {
 				while ((line = input.readLine()) != null) {
 					if (!line.startsWith(";")) {
-						if (line.startsWith(scenarioTitleKey)) {
+						if (line.startsWith(titleKey)) {
 							if (currentBuilder != null) {
 								result.add(currentBuilder.build());
 							}
-							currentBuilder = new Builder(scenarioTitleKey);
+							currentBuilder = new Builder(titleKey);
 							
-							currentBuilder.setTitle(line.substring(scenarioTitleKey.length()).trim());
+							currentBuilder.setTitle(line.substring(titleKey.length()).trim());
 							if (worldWidth > -1 && worldHeight > -1) {
 								currentBuilder.setWidth(worldWidth);
 								currentBuilder.setHeight(worldHeight);
 							}
 							continue;
 						} else if (currentBuilder == null) {
-							continue; // continue until we have the first valid scenario title key
+							continue; // continue until we have the first valid world setup title key
 						}
 						
 						if (line.startsWith(WIDTH_KEY)) {
@@ -400,7 +400,7 @@ public class Scenario {
 					}
 				}
 				
-				// add the last scenario
+				// add the last world setup
 				if (currentBuilder != null) {
 					result.add(currentBuilder.build());
 				}
@@ -411,45 +411,45 @@ public class Scenario {
 			ex.printStackTrace();
 		}
 
-		return result.toArray(new Scenario[result.size()]);
+		return result.toArray(new WorldSetup[result.size()]);
 	}
 	
 	/**
-	 * Creates a Scenario from all the actors in the list.
-	 * An empty scenario title is used.
+	 * Creates a WorldSetup from all the actors in the list.
+	 * An empty world setup title is used.
 	 * 
 	 * @param actors
 	 * @param worldWidth
 	 * @param worldHeight
-	 * @param scenarioTitleKey
-	 *            The key to recognize the start of the scenario inside the
-	 *            file, e.g. "Scenario:". 
+	 * @param titleKey
+	 *            The key to recognize the start of the world setup inside the
+	 *            file, e.g. "World:". 
 	 * @return
 	 */
-	public static Scenario createFromActors(List<Actor> actors, int worldWidth, int worldHeight, 
-			String scenarioTitleKey) {
-		return createFromActors(actors, worldWidth, worldHeight, scenarioTitleKey, "", null);
+	public static WorldSetup createFromActors(List<Actor> actors, int worldWidth, int worldHeight, 
+			String titleKey) {
+		return createFromActors(actors, worldWidth, worldHeight, titleKey, "", null);
 	}
 	
 	/**
-	 * Creates a Scenario from all the actors in the list.
+	 * Creates a WorldSetup from all the actors in the list.
 	 * 
 	 * @param actors
 	 * @param worldWidth
 	 * @param worldHeight
-	 * @param scenarioTitleKey
-	 *            The key to recognize the start of the scenario inside the
-	 *            file, e.g. "Scenario:". 
-	 * @param scenarioTitle The title of the scenario
+	 * @param titleKey
+	 *            The key to recognize the start of the world setup inside the
+	 *            file, e.g. "World:". 
+	 * @param title The title of the world setup
 	 * @param attributes Attributes or an empty map if no attributes should be added.
 	 * @return
 	 */
-	public static Scenario createFromActors(List<Actor> actors, int worldWidth, int worldHeight,
-			String scenarioTitleKey, String scenarioTitle, Map<String, String> attributes) {
-		Builder builder = new Builder(scenarioTitleKey);
+	public static WorldSetup createFromActors(List<Actor> actors, int worldWidth, int worldHeight,
+			String titleKey, String title, Map<String, String> attributes) {
+		Builder builder = new Builder(titleKey);
 		builder.setWidth(worldWidth)
 				.setHeight(worldHeight)
-				.setTitle(scenarioTitle);
+				.setTitle(title);
 
 		if (attributes != null) {
 			for (Entry<String, String> entry : attributes.entrySet()) {
@@ -467,9 +467,9 @@ public class Scenario {
 	}
 	
 	/**
-	 * This is a builder class for Scenarios according to the Builder design pattern.
-	 * The Builder helps us to step-by-step add new properties and
-	 * build an immutable Scenario at the end. 
+	 * This is a builder class for WorldSetup according to the Builder design
+	 * pattern. The Builder helps us to step-by-step add new properties and
+	 * build an immutable WorldSetup at the end.
 	 */
 	public static class Builder {
 		private final String titleKey;
@@ -489,13 +489,13 @@ public class Scenario {
 		/**
 		 * Copy constructor.
 		 */
-		public Builder(Scenario scenario) {
-			width = scenario.getWidth();
-			height = scenario.getHeight();
-			titleKey = scenario.getTitleKey();
-			title = scenario.getTitle();
-			attributes = scenario.attributes;
-			actorPositions = scenario.actorPositions;
+		public Builder(WorldSetup worldSetup) {
+			width = worldSetup.getWidth();
+			height = worldSetup.getHeight();
+			titleKey = worldSetup.getTitleKey();
+			title = worldSetup.getTitle();
+			attributes = worldSetup.attributes;
+			actorPositions = worldSetup.actorPositions;
 		}
 		
 		public Builder setWidth(int width) {
@@ -610,10 +610,11 @@ public class Scenario {
 		}
 		
 		/**
-		 * Builds the (immutable) scenario.
+		 * Builds the (immutable) WorldSetup.
+		 * 
 		 * @return
 		 */
-		public Scenario build() {
+		public WorldSetup build() {
 			if (width < 1) {
 				// infer width from actor positions
 				for (List<Character> line : actorPositions) {
@@ -625,7 +626,7 @@ public class Scenario {
 				height = actorPositions.size();
 			}
 			
-			return new Scenario(this);
+			return new WorldSetup(this);
 		}
 	}
 }

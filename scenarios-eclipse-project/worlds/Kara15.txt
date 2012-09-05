@@ -1,4 +1,4 @@
-Scenario: Kara 15a Round Trip 
+World: Kara 15a Round Trip 
 X: 10
 Y: 10
 ##########
@@ -12,7 +12,7 @@ Y: 10
 ##      ##
 ##########
 
-Scenario: Kara 15b Round Trip 
+World: Kara 15b Round Trip 
 X: 10
 Y: 10
 Kara: up
@@ -27,7 +27,7 @@ Kara: up
 ######   #
 ##########
 
-Scenario: Kara 15c Round Trip 
+World: Kara 15c Round Trip 
 X: 9
 Y: 9
 #########
