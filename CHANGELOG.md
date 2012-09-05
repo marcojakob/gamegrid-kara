@@ -15,6 +15,8 @@
 	scenarios. 
 * Added a title in the title bar.
 * Disable context menu for non-developer mode.
+* Changed the naming of scenario to world setup. "Scenario" was confusing because 
+	in Greenfoot projects are also called scenarios.
 
 
 ## GameGridKara 1.3.3 
