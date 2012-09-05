@@ -3,9 +3,7 @@
 #################
 /bin
 /.metadata
-/target
-/targetProjects
-/targetZips
+/target*
 
 # Locally stored "Eclipse launch configurations"
 /*.launch
