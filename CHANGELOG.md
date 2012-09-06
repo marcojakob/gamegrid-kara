@@ -21,6 +21,10 @@
 * Added Kara icon to frame.
 * Disable context menu for non-developer mode in sokoban.
 * Enabled wildcard (* and ?) filename patterns to find world setup files.
+* Switching to Java 6 compliance because of Greenfoot. Greenfoot is not
+	able to use Java 7 at the moment.
+* Made some adjustments to have similar code as GreenfootKara.
+
 
 ## GameGridKara 1.3.3 
 
