@@ -19,6 +19,7 @@ public class Leaf extends Actor {
 	
 	@Override
 	public String toString() {
+		// used for "inspect"
 		return "Leaf";
 	}
 }

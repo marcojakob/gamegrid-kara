@@ -4,16 +4,14 @@ import java.util.List;
 
 import kara.gamegrid.sokoban.Highscore;
 import kara.gamegrid.world.GameScreen;
-
-
 import ch.aplu.jgamegrid.Actor;
 
 /**
- * KaraSokoban extends the functionality of Kara by adding methods that are
- * used for the Sokoban game
+ * KaraSokoban extends the functionality of Kara by adding methods that are used
+ * for the Sokoban game
  * 
- * <i>KaraSokoban erweitert die Funktionalitaet von Kara mit Methoden fuer
- * das Sokoban Spiel.</i>
+ * <i>KaraSokoban erweitert die Funktionalitaet von Kara mit Methoden fuer das
+ * Sokoban Spiel.</i>
  * 
  * @author Marco Jakob (majakob@gmx.ch)
  */
@@ -29,14 +27,15 @@ public abstract class KaraSokoban extends Kara {
 	 * <p>
 	 * 
 	 * <ul>
-	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
-	 * 		Also returns uppercase characters when appropriate.</li>
+	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most
+	 * punctuation marks. Also returns uppercase characters when appropriate.</li>
 	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
 	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
 	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
 	 * </ul>
 	 * 
-	 * @return the most recently pressed key as String or an empty String if no key was pressed.
+	 * @return the most recently pressed key as String or an empty String if no
+	 *         key was pressed.
 	 */
 	public String getKey() {
 		if (!getGameScreen().isLevelComplete()) {

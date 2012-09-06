@@ -19,6 +19,7 @@ public class Tree extends Actor {
 	
 	@Override
 	public String toString() {
+		// used for "inspect"
 		return "Tree";
 	}
 }

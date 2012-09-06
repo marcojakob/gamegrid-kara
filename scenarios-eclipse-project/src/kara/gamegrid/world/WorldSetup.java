@@ -1,12 +1,11 @@
 package kara.gamegrid.world;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import kara.gamegrid.actor.Mushroom;
 import kara.gamegrid.actor.Tree;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGBitmap;
-import ch.aplu.jgamegrid.GGPath;
 
 /**
  * A WorldSetup contains information about the positions of the actors in the
@@ -89,13 +87,15 @@ public class WorldSetup {
 	
 	private final String title;
 	
-	private final Map<String, String> attributes = new LinkedHashMap<>();
+	private final String fileName;
+	
+	private final Map<String, String> attributes = new LinkedHashMap<String, String>();
 	
 	/**
 	 * Actor positions with the outer List as line (y-position) and
 	 * the inner List as column (x-position).
 	 */
-	private final List<List<Character>> actorPositions = new ArrayList<>();
+	private final List<List<Character>> actorPositions = new ArrayList<List<Character>>();
 
 	/**
 	 * Constructor to be used by the Builder.
@@ -105,20 +105,22 @@ public class WorldSetup {
 		this.height = builder.height;
 		this.titleKey = builder.titleKey;
 		this.title = builder.title;
+		this.fileName = builder.fileName;
 		
 		// copy values to make shure we have an immutable WorldSetup
 		for (Entry<String, String> entry : builder.attributes.entrySet()) {
 			this.attributes.put(entry.getKey(), entry.getValue());
 		}
 		for (List<Character> line : builder.actorPositions) {
-			this.actorPositions.add(new ArrayList<>(line));
+			this.actorPositions.add(new ArrayList<Character>(line));
 		}
 	}
 	
 	/**
 	 * This is a "copy constructor".
 	 * 
-	 * @param worldSetup the WorldSetup to copy into the new WorldSetup.
+	 * @param worldSetup
+	 *            the WorldSetup to copy into the new WorldSetup.
 	 */
 	public WorldSetup(WorldSetup worldSetup) {
 		this(new Builder(worldSetup));
@@ -127,12 +129,12 @@ public class WorldSetup {
 	/**
 	 * Returns the number of horizontal cells.
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public int getWidth() {
 		return width;
 	}
-	
+
 	/**
 	 * Returns the number of vertical cells.
 	 * 
@@ -141,7 +143,7 @@ public class WorldSetup {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	/**
 	 * Returns the title of the world setup.
 	 * 
@@ -150,15 +152,25 @@ public class WorldSetup {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
-	 * Returns the title key that is used to identify the title inside
-	 * the world setup text file.
+	 * Returns the title key that is used to identify the title inside the world
+	 * setup text file.
 	 * 
 	 * @return
 	 */
 	public String getTitleKey() {
 		return titleKey;
+	}
+
+	/**
+	 * Returns the filename of the file this WorldSetup was loaded from. May be
+	 * <code>null</code> if the WorldSetup was not loaded from a file.
+	 * 
+	 * @return The filename or <code>null</code>.
+	 */
+	public String getFileName() {
+		return fileName;
 	}
 	
 	/**
@@ -170,18 +182,18 @@ public class WorldSetup {
 	public String getAttribute(String attributeKey) {
 		return attributes.get(attributeKey);
 	}
-	
+
 	/**
-	 * Returns a copy of the attributes map. 
+	 * Returns a copy of the attributes map.
 	 * 
 	 * @return
 	 */
 	public Map<String, String> getAttributes() {
 		// must be a copy of the real attributes map because otherwise
 		// it would not be immutable.
-		return new LinkedHashMap<>(attributes);
+		return new LinkedHashMap<String, String>(attributes);
 	}
-	
+
 	/**
 	 * Returns the actor type as character (see class description).
 	 * 
@@ -205,7 +217,8 @@ public class WorldSetup {
 	/**
 	 * Returns an image representation of this WorldSetup with all the actors.
 	 * 
-	 * @param cellSize The size of each cell of the grid.
+	 * @param cellSize
+	 *            The size of each cell of the grid.
 	 * @return
 	 */
 	public BufferedImage toImage(int cellSize) {
@@ -264,33 +277,38 @@ public class WorldSetup {
 	public String toASCIIText(boolean printWidthAndHeight) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(titleKey).append(' ').append(title).append('\n');
-		
+
 		if (printWidthAndHeight) {
 			buf.append(WIDTH_KEY).append(' ').append(width).append('\n');
 			buf.append(HEIGHT_KEY).append(' ').append(height).append('\n');
 		}
-		
+
 		for (Entry<String, String> entry : attributes.entrySet()) {
-			buf.append(entry.getKey()).append(' ').append(entry.getValue()).append('\n');
+			buf.append(entry.getKey()).append(' ').append(entry.getValue())
+					.append('\n');
 		}
-		
+
 		for (List<Character> line : actorPositions) {
 			for (Character character : line) {
 				buf.append(character);
 			}
 			buf.append('\n');
 		}
-		
+
 		return buf.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		// Just return the title. This is used for drop down box when user needs
 		// to choose between mutliple world setups.
+		if (getFileName() != null) {
+			return "<html>" + getTitle() + " <i>---> File: " + getFileName() + "</i></html>";
+		}
+
 		return getTitle();
 	}
-	
+
 	/**
 	 * Parses (one or many) world setups from the specified file. The default
 	 * width and height attribute keys are used to get width and height from the
@@ -309,11 +327,11 @@ public class WorldSetup {
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String fileName, String titleKey, 
+	public static WorldSetup[] parseFromFile(String fileName, String titleKey,
 			String... attributeKeys) {
-		return parseFromFile(fileName, null, titleKey, -1, -1, attributeKeys);		
+		return parseFromFile(fileName, null, titleKey, -1, -1, attributeKeys);
 	}
-	
+
 	/**
 	 * Parses (one or many) world setups from the specified file. The default
 	 * width and height attribute keys are used to get width and height from the
@@ -336,11 +354,11 @@ public class WorldSetup {
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz, String titleKey, 
-			String... attributeKeys) {
-		return parseFromFile(fileName, clazz, titleKey, -1, -1, attributeKeys);		
+	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz,
+			String titleKey, String... attributeKeys) {
+		return parseFromFile(fileName, clazz, titleKey, -1, -1, attributeKeys);
 	}
-	
+
 	/**
 	 * Parses (one or many) world setups from the specified file.
 	 * 
@@ -366,63 +384,68 @@ public class WorldSetup {
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
 	 */
-	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz, String titleKey, int worldWidth, 
-			int worldHeight, String... attributeKeys) {
+	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz,
+			String titleKey, int worldWidth, int worldHeight,
+			String... attributeKeys) {
 		List<WorldSetup> result = new ArrayList<WorldSetup>();
 
 		try {
-			File file = findFile(fileName, clazz);
+			List<File> matchingFiles = findMatchingFiles(fileName, clazz);
 			
-			BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-			
-			String line;
-			
-			Builder currentBuilder = null;
-
-			try {
-				while ((line = input.readLine()) != null) {
+			for (File matchingFile : matchingFiles) {
+				List<String> lines = Files.readAllLines(matchingFile.toPath(), Charset.defaultCharset());
+				
+				Builder currentBuilder = null;
+				
+				// Go trough all lines of the file
+				for (String line : lines) {
 					if (!line.startsWith(";")) {
 						if (line.startsWith(titleKey)) {
 							if (currentBuilder != null) {
 								result.add(currentBuilder.build());
 							}
 							currentBuilder = new Builder(titleKey);
-							
 							currentBuilder.setTitle(line.substring(titleKey.length()).trim());
+							currentBuilder.setFileName(matchingFile.getName());
+							
 							if (worldWidth > -1 && worldHeight > -1) {
 								currentBuilder.setWidth(worldWidth);
 								currentBuilder.setHeight(worldHeight);
 							}
 							continue;
 						} else if (currentBuilder == null) {
-							continue; // continue until we have the first valid world setup title key
+							continue; // continue until we have the first valid
+										// world setup title key
 						}
-						
+
 						if (line.startsWith(WIDTH_KEY)) {
 							try {
-								currentBuilder.setWidth(Integer.parseInt(
-										line.substring(WIDTH_KEY.length()).trim()));
+								currentBuilder.setWidth(Integer.parseInt(line
+										.substring(WIDTH_KEY.length()).trim()));
 								continue;
 							} catch (NumberFormatException e) {
 								// do nothing
 							}
 						}
-						
+
 						if (line.startsWith(HEIGHT_KEY)) {
 							try {
-								currentBuilder.setHeight(Integer.parseInt(
-										line.substring(HEIGHT_KEY.length()).trim()));
+								currentBuilder
+										.setHeight(Integer.parseInt(line
+												.substring(HEIGHT_KEY.length())
+												.trim()));
 								continue;
 							} catch (NumberFormatException e) {
 								// do nothing
 							}
 						}
-							
+
 						boolean foundAttribute = false;
 						for (String attributeKey : attributeKeys) {
 							if (line.startsWith(attributeKey)) {
-								currentBuilder.addAttribute(attributeKey, 
-										line.substring(attributeKey.length()).trim());
+								currentBuilder.addAttribute(attributeKey, line
+										.substring(attributeKey.length())
+										.trim());
 								foundAttribute = true;
 								break;
 							}
@@ -430,29 +453,28 @@ public class WorldSetup {
 						if (foundAttribute) {
 							continue;
 						}
-						
+
 						if (line.matches("[@#.$\\s*+]*")) {
 							currentBuilder.addActorLine(line);
 						}
 					}
 				}
-				
 				// add the last world setup
 				if (currentBuilder != null) {
 					result.add(currentBuilder.build());
 				}
-			} finally {
-				input.close();
 			}
+			
 		} catch (Exception ex) {
+			// Just in case something goes wrong we catch it and print it out
 			ex.printStackTrace();
 		}
 
 		return result.toArray(new WorldSetup[result.size()]);
 	}
-	
+
 	/**
-	 * Tries to load the specified file either relative to the class,
+	 * Tries to load the specified file (or files) either relative to the class,
 	 * relative to the package root or relative to the project root.
 	 * 
 	 * @param fileName
@@ -460,19 +482,18 @@ public class WorldSetup {
 	 *            clazz. Wildcards (? or *) may be used.
 	 * @param clazz
 	 *            The class used to get the relative path to the file or
-	 *            <code>null</code> if the file should be retrieved relative to the 
-	 *            jar root or project root.
-	 * @return the file or <code>null</code> if none could be found.
+	 *            <code>null</code> if the file should be retrieved relative to
+	 *            the jar root or project root.
+	 * @return the files or an empty list if none could be found.
 	 */
-	private static File findFile(String fileName, Class<?> clazz) {
+	private static List<File> findMatchingFiles(String fileName, Class<?> clazz) {
 		try {
 			// Option 1: try to get file relative to class
 			if (clazz != null) {
 				File dir = new File(clazz.getResource(".").toURI());
 				List<File> files = FileUtil.scan(dir, fileName);
 				if (!files.isEmpty()) {
-					// Note: only get the first match
-					return files.get(0);
+					return files;
 				}
 			}
 			
@@ -480,8 +501,7 @@ public class WorldSetup {
 			File dir2 = new File(Thread.currentThread().getContextClassLoader().getResource(".").toURI());
 			List<File> files2 = FileUtil.scan(dir2, fileName);
 			if (!files2.isEmpty()) {
-				// Note: only get the first match
-				return files2.get(0);
+				return files2;
 			}
 			
 			// Option 3: try to get file relative to project root (outside of jar)
@@ -489,32 +509,34 @@ public class WorldSetup {
 			List<File> files3 = FileUtil.scan(dir3, fileName);
 			if (!files3.isEmpty()) {
 				// Note: only get the first match
-				return files3.get(0);
+				return files3;
 			}
 		} catch (URISyntaxException e) {
 			// do nothing
 		}
 		
-		return null;
+		// Return empty list
+		return new ArrayList<File>();
 	}
-	
+
 	/**
-	 * Creates a WorldSetup from all the actors in the list.
-	 * An empty world setup title is used.
+	 * Creates a WorldSetup from all the actors in the list. An empty world
+	 * setup title is used.
 	 * 
 	 * @param actors
 	 * @param worldWidth
 	 * @param worldHeight
 	 * @param titleKey
 	 *            The key to recognize the start of the world setup inside the
-	 *            file, e.g. "World:". 
+	 *            file, e.g. "World:".
 	 * @return
 	 */
-	public static WorldSetup createFromActors(List<Actor> actors, int worldWidth, int worldHeight, 
-			String titleKey) {
-		return createFromActors(actors, worldWidth, worldHeight, titleKey, "", null);
+	public static WorldSetup createFromActors(List<Actor> actors,
+			int worldWidth, int worldHeight, String titleKey) {
+		return createFromActors(actors, worldWidth, worldHeight, titleKey, "",
+				null);
 	}
-	
+
 	/**
 	 * Creates a WorldSetup from all the actors in the list.
 	 * 
@@ -523,24 +545,25 @@ public class WorldSetup {
 	 * @param worldHeight
 	 * @param titleKey
 	 *            The key to recognize the start of the world setup inside the
-	 *            file, e.g. "World:". 
-	 * @param title The title of the world setup
-	 * @param attributes Attributes or an empty map if no attributes should be added.
+	 *            file, e.g. "World:".
+	 * @param title
+	 *            The title of the world setup
+	 * @param attributes
+	 *            Attributes or an empty map if no attributes should be added.
 	 * @return
 	 */
-	public static WorldSetup createFromActors(List<Actor> actors, int worldWidth, int worldHeight,
-			String titleKey, String title, Map<String, String> attributes) {
+	public static WorldSetup createFromActors(List<Actor> actors,
+			int worldWidth, int worldHeight, String titleKey, String title,
+			Map<String, String> attributes) {
 		Builder builder = new Builder(titleKey);
-		builder.setWidth(worldWidth)
-				.setHeight(worldHeight)
-				.setTitle(title);
+		builder.setWidth(worldWidth).setHeight(worldHeight).setTitle(title);
 
 		if (attributes != null) {
 			for (Entry<String, String> entry : attributes.entrySet()) {
 				builder.addAttribute(entry.getKey(), entry.getValue());
 			}
 		}
-		
+
 		if (actors != null) {
 			for (Actor actor : actors) {
 				builder.addFromActor(actor);
@@ -549,7 +572,7 @@ public class WorldSetup {
 
 		return builder.build();
 	}
-	
+
 	/**
 	 * This is a builder class for WorldSetup according to the Builder design
 	 * pattern. The Builder helps us to step-by-step add new properties and
@@ -560,8 +583,9 @@ public class WorldSetup {
 		private int width = 0;
 		private int height = 0;
 		private String title = "";
-		private Map<String, String> attributes = new LinkedHashMap<>();
-		private List<List<Character>> actorPositions = new ArrayList<>();
+		private String fileName;
+		private Map<String, String> attributes = new LinkedHashMap<String, String>();
+		private List<List<Character>> actorPositions = new ArrayList<List<Character>>();
 		
 		/**
 		 * Default constructor.
@@ -569,7 +593,7 @@ public class WorldSetup {
 		public Builder(String titleKey) {
 			this.titleKey = titleKey;
 		}
-		
+
 		/**
 		 * Copy constructor.
 		 */
@@ -580,28 +604,34 @@ public class WorldSetup {
 			title = worldSetup.getTitle();
 			attributes = worldSetup.attributes;
 			actorPositions = worldSetup.actorPositions;
+			fileName = worldSetup.fileName;
 		}
-		
+
 		public Builder setWidth(int width) {
 			this.width = width;
 			return this;
 		}
-		
+
 		public Builder setHeight(int height) {
 			this.height = height;
 			return this;
 		}
-		
+
 		public Builder setTitle(String title) {
 			this.title = title;
 			return this;
 		}
 		
+		public Builder setFileName(String fileName) {
+			this.fileName = fileName;
+			return this;
+		}
+
 		public Builder addAttribute(String key, String value) {
 			this.attributes.put(key, value);
 			return this;
 		}
-		
+
 		/**
 		 * Add a line of actors to the actor positions.
 		 * 
@@ -609,38 +639,41 @@ public class WorldSetup {
 		 * @return
 		 */
 		public Builder addActorLine(String actorLine) {
-			List<Character> chars = new ArrayList<>();
+			List<Character> chars = new ArrayList<Character>();
 			for (char c : actorLine.toCharArray()) {
 				chars.add(c);
 			}
 			this.actorPositions.add(chars);
 			return this;
 		}
-		
+
 		/**
 		 * Set the actor type at the specified position.
 		 */
 		public Builder setActorTypeAt(int x, int y, char actorType) {
 			return setActorTypeAt(x, y, actorType, false);
 		}
-		
+
 		/**
 		 * Set the actor type at the specified position.
 		 * 
 		 * @param x
 		 * @param y
 		 * @param actorType
-		 * @param combine if true, kara-leafs and mushroom-leafs are combined.
+		 * @param combine
+		 *            if true, kara-leafs and mushroom-leafs are combined.
 		 * @return
 		 */
-		public Builder setActorTypeAt(int x, int y, char actorType, boolean combine) {
+		public Builder setActorTypeAt(int x, int y, char actorType,
+				boolean combine) {
 			while (actorPositions.size() <= y) {
-				// the line (y) is not present yet, so create lines until we reach it
+				// the line (y) is not present yet, so create lines until we
+				// reach it
 				actorPositions.add(new ArrayList<Character>());
 			}
 			// get the relevant line
 			List<Character> line = actorPositions.get(y);
-			
+
 			while (line.size() <= x) {
 				// fill with EMPTY characters until we reach position x
 				line.add(EMPTY);
@@ -654,7 +687,7 @@ public class WorldSetup {
 				// just overwrite the current char
 				line.set(x, actorType);
 			}
-			
+
 			return this;
 		}
 
@@ -675,24 +708,26 @@ public class WorldSetup {
 			} else if (actor instanceof Mushroom) {
 				setActorTypeAt(actor.getX(), actor.getY(), MUSHROOM, true);
 			}
-			
+
 			return this;
 		}
-		
+
 		/**
 		 * Returns true if the two chars are a kara and a leaf.
 		 */
 		private boolean isKaraLeaf(char first, char second) {
-			return (first == LEAF && second == KARA) || (first == KARA && second == LEAF);
+			return (first == LEAF && second == KARA)
+					|| (first == KARA && second == LEAF);
 		}
-		
+
 		/**
 		 * Returns true if the two chars are a mushroom and a leaf.
 		 */
 		private boolean isMushroomLeaf(char first, char second) {
-			return (first == MUSHROOM && second == KARA) || (first == KARA && second == MUSHROOM);
+			return (first == MUSHROOM && second == KARA)
+					|| (first == KARA && second == MUSHROOM);
 		}
-		
+
 		/**
 		 * Builds the (immutable) WorldSetup.
 		 * 
@@ -709,7 +744,7 @@ public class WorldSetup {
 				// infer height from actor positions
 				height = actorPositions.size();
 			}
-			
+
 			return new WorldSetup(this);
 		}
 	}
@@ -718,27 +753,26 @@ public class WorldSetup {
 	 * Utility class for loading and saving files.
 	 */
 	public static class FileUtil {
-		
+
 		/**
-		 * Opens a file chooser dialog to ask the user for a filename. If successful, 
-		 * the given content is written to the chosen text file.
+		 * Opens a file chooser dialog to ask the user for a filename. If
+		 * successful, the given content is written to the chosen text file.
 		 * 
-		 * @param content Content to write to the file
+		 * @param content
+		 *            Content to write to the file
+		 * @throws IOException
 		 */
-		public static void saveToFileWithDialog(String content) {
-			File f = null;
-			try {
-				f = new File(new File(".").getCanonicalPath());
-			} catch (IOException e) {
-				// do nothing
-			}
+		public static void saveToFileWithDialog(String content)
+				throws IOException {
+			File f = new File(new File(".").getCanonicalPath());
+
 			JFileChooser fileChooser = new JFileChooser(f);
 			fileChooser.setFileFilter(new FileFilter() {
 				@Override
 				public String getDescription() {
 					return "*.txt, *.TXT";
 				}
-				
+
 				@Override
 				public boolean accept(File f) {
 					if (f.isDirectory()) {
@@ -748,40 +782,47 @@ public class WorldSetup {
 					return s.endsWith(".txt") || s.endsWith(".TXT");
 				}
 			});
-	
+
 			int retrival = fileChooser.showSaveDialog(null);
-	
+
 			if (retrival == JFileChooser.APPROVE_OPTION) {
 				File chosenFile = fileChooser.getSelectedFile();
-				
+
 				if (chosenFile.exists()) {
-					int option = JOptionPane.showConfirmDialog(null, "The file " + chosenFile + 
-							" exists already. Do you want to overwrite the existing file?", "File Exists",
-							JOptionPane.YES_NO_OPTION);
+					int option = JOptionPane
+							.showConfirmDialog(
+									null,
+									"The file "
+											+ chosenFile
+											+ " exists already. Do you want to overwrite the existing file?",
+									"File Exists", JOptionPane.YES_NO_OPTION);
 					if (option != JOptionPane.YES_OPTION) {
 						// abort
 						return;
 					}
 				}
-				
+
 				// write to file
-				if (!chosenFile.getName().endsWith(".txt") && !chosenFile.getName().endsWith(".TXT")) {
+				if (!chosenFile.getName().endsWith(".txt")
+						&& !chosenFile.getName().endsWith(".TXT")) {
 					chosenFile = new File(chosenFile.getAbsolutePath() + ".txt");
 				}
-				GGPath.writeTextFile(chosenFile, content, false);
+				Files.write(chosenFile.toPath(), content.getBytes());
 			}
 		}
-		
+
 		/**
-		 * Scans through the directory using wild-card patterns. All files matching the 
-		 * patterns are returned.
+		 * Scans through the directory using wild-card patterns. All files
+		 * matching the patterns are returned.
 		 * <ul>
 		 * <li>Use ? for one or no unknown character</li>
 		 * <li>Use * for zero or more unknown characters</li>
 		 * </ul>
 		 * 
-		 * @param dir the directory
-		 * @param patterns the patterns that should be matched containing wild-cards.
+		 * @param dir
+		 *            the directory
+		 * @param patterns
+		 *            the patterns that should be matched containing wild-cards.
 		 * @return
 		 */
 		public static List<File> scan(File dir, String... patterns) {
@@ -789,7 +830,7 @@ public class WorldSetup {
 			if (!dir.isDirectory()) {
 				return result;
 			}
-			
+
 			List<String> convertedPatterns = new ArrayList<String>();
 			for (String p : patterns) {
 				p = p.replace(".", "\\.");
@@ -806,7 +847,7 @@ public class WorldSetup {
 			}
 			return result;
 		}
-		
+
 		/**
 		 * Returns true if the filename of the file matches one of the patterns.
 		 * 

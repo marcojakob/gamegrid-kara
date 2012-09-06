@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -24,8 +24,6 @@ import kara.gamegrid.actor.Kara;
 import kara.gamegrid.actor.Leaf;
 import kara.gamegrid.actor.Mushroom;
 import kara.gamegrid.actor.Tree;
-import kara.gamegrid.sokoban.Level;
-import kara.gamegrid.world.WorldSetup.FileUtil;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGMouse;
 import ch.aplu.jgamegrid.GGMouseListener;
@@ -44,7 +42,8 @@ import ch.aplu.jgamegrid.Location;
 public class KaraWorld extends GameGrid implements GGMouseListener,
 		GGResetListener {
 	
-	public static final int CELL_SIZE = 28; // Size of one cell
+	// Size of one cell
+	public static final int CELL_SIZE = 28; 
 	
 	public static final Color DEFAULT_BACKGROUND_COLOR = new Color(180, 230, 180);
 	public static final Color DEFAULT_GRID_COLOR = new Color(170, 170, 170);
@@ -142,7 +141,6 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		addMouseListener(this, GGMouse.rClick);
 		
 		addResetListener(this);
-		
 	}
 	
 	/**
@@ -306,23 +304,23 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		for (int y = 0; y < worldSetup.getHeight(); y++) {
 			for (int x = 0; x < worldSetup.getWidth(); x++) {
 				switch (worldSetup.getActorTypeAt(x, y)) {
-				case Level.KARA:
+				case WorldSetup.KARA:
 					addObject(createNewKaraInstance(), x, y);
 					break;
-				case Level.TREE:
+				case WorldSetup.TREE:
 					addObject(new Tree(), x, y);
 					break;
-				case Level.LEAF:
+				case WorldSetup.LEAF:
 					addObject(new Leaf(), x, y);
 					break;
-				case Level.MUSHROOM:
+				case WorldSetup.MUSHROOM:
 					addObject(new Mushroom(), x, y);
 					break;
-				case Level.MUSHROOM_LEAF:
+				case WorldSetup.MUSHROOM_LEAF:
 					addObject(new Mushroom(true), x, y);
 					addObject(new Leaf(), x, y);
 					break;
-				case Level.KARA_LEAF:
+				case WorldSetup.KARA_LEAF:
 					addObject(createNewKaraInstance(), x, y);
 					addObject(new Leaf(), x, y);
 					break;
@@ -332,30 +330,25 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		
 		String karaDirection = worldSetup.getAttribute(KARA_DIRECTION_KEY);
 		if (karaDirection != null) {
-			switch (karaDirection.toLowerCase()) {
-			case DIRECTION_RIGHT:
-				// original direction, do nothing
-				break;
-			case DIRECTION_DOWN:
+			
+			if (karaDirection.equalsIgnoreCase(DIRECTION_DOWN)) {
 				for (Actor actor : getActors(Kara.KaraDelegate.class)) {
 					Kara kara = ((Kara.KaraDelegate) actor).getKara();
 					kara.turnRight();
 				}
-				break;
-			case DIRECTION_LEFT:
+			} else if (karaDirection.equalsIgnoreCase(DIRECTION_LEFT)) {
 				for (Actor actor : getActors(Kara.KaraDelegate.class)) {
 					Kara kara = ((Kara.KaraDelegate) actor).getKara();
 					kara.turnRight();
 					kara.turnRight();
 				}
-				break;
-			case DIRECTION_UP:
+			} else if (karaDirection.equalsIgnoreCase(DIRECTION_UP)) {
 				for (Actor actor : getActors(Kara.KaraDelegate.class)) {
 					Kara kara = ((Kara.KaraDelegate) actor).getKara();
 					kara.turnLeft();
 				}
-				break;
 			}
+			// DIRECTION_RIGHT is the original direction - do nothing
 		}
 	}
 	
@@ -437,6 +430,26 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 	
 	/**
+	 * Prints the world setup to the console.
+	 */
+	public void printWorldSetupToConsole() {
+		System.out.println(";-------------------------- START --------------------------");
+		System.out.println(toASCIIText());
+		System.out.println(";--------------------------- END ---------------------------\n");
+	}
+	
+	/**
+	 * Saves the world setup to a file that the user can choose.
+	 */
+	public void saveWorldSetupToFile() {
+		try {
+			WorldSetup.FileUtil.saveToFileWithDialog(toASCIIText());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Creates an ASCII-representation of all the actors in the world.
 	 * 
 	 * @return the world as ASCII text
@@ -454,14 +467,16 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	private Kara createNewKaraInstance() {
 		try {
 			return karaClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException e1) {
 			// could not create the class
-			e.printStackTrace();
-			
-			// returning null here will likely lead to a NullPointerException in
-			// the calling class.
-			return null;
+			e1.printStackTrace();
+		} catch (IllegalAccessException e2) {
+			// could not create the class
+			e2.printStackTrace();
 		}
+		// returning null here will likely lead to a NullPointerException in
+		// the calling class.
+		return null;
 	}
 
 	/**
@@ -547,7 +562,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 		 *            the classes in desired order.
 		 */
 		public PaintOrderComparator(Class<?>[] paintOrder) {
-			order = new HashMap<>();
+			order = new HashMap<Class<?>, Integer>();
 			for (int i = 0; i < paintOrder.length; i++) {
 				order.put(paintOrder[i], i);
 			}
@@ -773,11 +788,8 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 							+ "</i> returned: <p><b>" + result.toString() + "</b></html>", "Method Result",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
-			} catch (IllegalAccessException
-					| IllegalArgumentException
-					| InvocationTargetException ex) {
-				System.err
-						.println("Could not invoke method "
+			} catch (Exception ex) {
+				System.err.println("Could not invoke method "
 								+ convertMethodToString(method)
 								+ " - only no-argument methods may be called!");
 				ex.printStackTrace();
@@ -854,9 +866,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			printToConsoleItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println(";-------------------------- START --------------------------");
-					System.out.println(toASCIIText());
-					System.out.println(";--------------------------- END ---------------------------\n");
+					printWorldSetupToConsole();
 				}
 			});
 			add(printToConsoleItem);
@@ -867,7 +877,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			saveToFileItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					FileUtil.saveToFileWithDialog(toASCIIText());
+					saveWorldSetupToFile();
 				}
 			});
 			add(saveToFileItem);

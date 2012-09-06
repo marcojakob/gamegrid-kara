@@ -51,19 +51,15 @@ public class Button extends Label implements GGMouseTouchListener {
 			case GGMouse.enter: 
 				hover = true;
 				break;
-				
 			case GGMouse.leave: 
 				hover = false;
 				break;
-				
 			case GGMouse.lPress:
 				pressed = true;
 				break;
-			
 			case GGMouse.lClick: 
 				clicked = true;
 				break;
-				
 			case GGMouse.lRelease: // || dragEnded any where??
 				pressed = false; 
 				break;

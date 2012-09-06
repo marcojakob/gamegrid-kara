@@ -34,6 +34,7 @@ public class Mushroom extends Actor {
 
 	@Override
 	public String toString() {
+		// used for "inspect"
 		return "Mushroom";
 	}
 

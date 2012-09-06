@@ -84,7 +84,7 @@ public class Level extends WorldSetup {
 	 */
 	public static Level createFromActors(List<Actor> actors,
 			int levelNumber, String password) {
-		Map<String, String> attributes = new LinkedHashMap<>();
+		Map<String, String> attributes = new LinkedHashMap<String, String>();
 		attributes.put(PASSWORD_KEY, password);
 		WorldSetup worldSetup = WorldSetup.createFromActors(actors,
 				GameScreen.WIDTH_IN_CELLS, GameScreen.HEIGHT_IN_CELLS,

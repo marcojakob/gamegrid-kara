@@ -279,32 +279,30 @@ public abstract class Kara {
 	 *            the direction to move
 	 */
 	private void moveActor(Actor actor, int direction) {
-		Location newLocation = actor.getLocation();
 		switch (direction) {
 		case DIRECTION_RIGHT:
-			newLocation = new Location(modulo((actor.getX() + 1), getWorld()
-					.getNbHorzCells()), actor.getY());
+			actor.setLocation(new Location(modulo((actor.getX() + 1), getWorld()
+					.getNbHorzCells()), actor.getY()));
 			break;
 
 		case DIRECTION_DOWN:
-			newLocation = new Location(actor.getX(), modulo((actor.getY() + 1),
-					getWorld().getNbVertCells()));
+			actor.setLocation(new Location(actor.getX(), modulo((actor.getY() + 1),
+					getWorld().getNbVertCells())));
 			break;
 
 		case DIRECTION_LEFT:
-			newLocation = new Location(modulo((actor.getX() - 1), getWorld()
-					.getNbHorzCells()), actor.getY());
+			actor.setLocation(new Location(modulo((actor.getX() - 1), getWorld()
+					.getNbHorzCells()), actor.getY()));
 			break;
 
 		case DIRECTION_UP:
-			newLocation = new Location(actor.getX(), modulo((actor.getY() - 1),
-					getWorld().getNbVertCells()));
+			actor.setLocation(new Location(actor.getX(), modulo((actor.getY() - 1),
+					getWorld().getNbVertCells())));
 			break;
 
 		default: // Not a valid direction
 			break;
 		}
-		actor.setLocation(newLocation);
 	}
 
 	/**

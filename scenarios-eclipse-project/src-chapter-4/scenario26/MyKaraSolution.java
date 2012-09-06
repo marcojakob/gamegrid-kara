@@ -91,7 +91,7 @@ public class MyKaraSolution extends KaraSokoban {
 	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		GameScreen game = new GameScreen("Sokoban_Levels_Boxxle_1.txt", MyKaraSolution.class);
+		GameScreen game = new GameScreen("LevelsBoxxle1.txt", MyKaraSolution.class);
 		game.setDeveloperMode(false);
 		game.setHighscoreEnabled(true);
 		game.show();

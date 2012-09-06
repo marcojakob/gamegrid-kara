@@ -47,7 +47,7 @@ public abstract class KaraIO extends Kara {
 				}
 			} else {
 				// User pushed cancel or closed the window
-//				displayMessage("<html>Please enter an integer!<p><i>Bitte eine Zahl eingeben!</i></html>");
+				// displayMessage("<html>Please enter an integer!<p><i>Bitte eine Zahl eingeben!</i></html>");
 				
 				// Exit the program. Must do this because we cannot return a valid value.
 				// Better would be if the caller would handle this case but this would me more difficult.
@@ -84,7 +84,7 @@ public abstract class KaraIO extends Kara {
 				}
 			} else {
 				// User pushed cancel or closed the window
-//				displayMessage("<html>Please enter a number!<p><i>Bitte eine Zahl eingeben!</i></html>");
+				// displayMessage("<html>Please enter a number!<p><i>Bitte eine Zahl eingeben!</i></html>");
 				
 				// Exit the program. Must do this because we cannot return a valid value.
 				// Better would be if the caller would handle this case but this would me more difficult.

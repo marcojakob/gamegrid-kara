@@ -26,16 +26,12 @@ import kara.gamegrid.sokoban.LevelSplashState;
 import kara.gamegrid.sokoban.ScreenState;
 import kara.gamegrid.sokoban.StartState;
 
-
-
-
 /**
  * This is the world for the Kara Sokoban game:
  * <p>
  * This class manages the following:
  * <ul>
  * <li>all information about the world and pixel sizes
- * <li>references to the icons that are used
  * <li>the Fonts
  * <li>all the screen states
  * <li>all the levels
@@ -118,8 +114,8 @@ public class GameScreen extends KaraWorld {
 			setMouseContextMenu(MouseSettings.DISABLED);
 		}
 		
-		// Set the speed
-		setSimulationPeriod(50);
+		// maximum speed for fast reaction
+		setSimulationPeriod(0);
 
 		// Read all the levels from the level file
 		this.allLevels = Level.parseFromFile(levelFileName, karaClass);
@@ -163,110 +159,7 @@ public class GameScreen extends KaraWorld {
 		}
 	}
 	
-    /** 
-     * Set to true to directly show the game (for testing and level design). Set to false for normal mode. <br>
-     * <i>Bei true wird direkt das Spielfeld angezeigt (zum Testen und Level Erstellen). Fuer Normaler Modus auf false setzen.</i>)
-     */
-	public void setDeveloperMode(boolean developerMode) {
-		this.developerMode = developerMode;
-	}
-	
     /**
-     * Set to true to enable the highscore. <br>
-     * <i>Wenn auf true gesetzt, dann wir die Highscore aktiviert.</i>
-     */
-	public void setHighscoreEnabled(boolean highscoreEnabled) {
-		this.highscoreEnabled = highscoreEnabled;
-	}
-	
-	/**
-	 * Returns true, if the highscore is enabled.
-	 * @return
-	 */
-	public boolean isHighscoreEnabled() {
-		return highscoreEnabled;
-	}
-	
-	/**
-	 * Helper method to add a label to the world
-	 * 
-	 * @param label
-	 *            the label that should be added to the world.
-	 * @param x
-	 *            the x position of the actor in the grid.
-	 * @param y
-	 *            the y position of the actor in the grid.
-	 */
-	public void addObject(Label label, int x, int y) {
-		label.addToWorld(x, y);
-	}
-	
-	/**
-	 * Converts the key code to a String representation resembling the Greenfoot keys.
-	 * 
-	 * <ul>
-	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
-	 * 		Also returns uppercase characters when appropriate.</li>
-	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
-	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
-	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
-	 * </ul>
-	 * 
-	 * @param keyCode
-	 * @return the key or an empty String if the keycode was KeyEvent.CHAR_UNDEFINED.
-	 */
-	public static String convertKeyCode(int keyCode, int keyModifiers) {
-		switch (keyCode) {
-		case KeyEvent.VK_LEFT: return "left";
-		case KeyEvent.VK_RIGHT: return "right";
-		case KeyEvent.VK_DOWN: return "down";
-		case KeyEvent.VK_UP: return "up";
-		case KeyEvent.VK_ENTER: return "enter";
-		case KeyEvent.VK_SPACE: return "space";
-		case KeyEvent.VK_TAB: return "tab";
-		case KeyEvent.VK_ESCAPE: return "escape";
-		case KeyEvent.VK_BACK_SPACE: return "backspace";
-		case KeyEvent.VK_SHIFT: return "shift";
-		case KeyEvent.VK_CONTROL: return "control";
-		case KeyEvent.VK_PERIOD: return ".";
-		case KeyEvent.VK_COMMA: return ",";
-		case KeyEvent.VK_EXCLAMATION_MARK: return "!";
-		case KeyEvent.VK_SEMICOLON: return ";";
-		case KeyEvent.VK_COLON: return ":";
-		case KeyEvent.CHAR_UNDEFINED: return "";
-		default: 
-			String letter = KeyEvent.getKeyText(keyCode);
-			if (letter != null && letter.length() == 1) {
-				if (keyModifiers == InputEvent.SHIFT_MASK) {
-					return letter.toUpperCase();
-				} else {
-					return letter.toLowerCase();
-				}
-			}
-			return "";
-		}
-	}
-
-	/**
-	 * Gets the most recently pressed key <br>
-	 * <i>Ermittelt die zuletzt gedrueckte Taste</i>.
-	 * <p>
-	 * 
-	 * <ul>
-	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
-	 * 		Also returns uppercase characters when appropriate.</li>
-	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
-	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
-	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
-	 * </ul>
-	 * 
-	 * @return the most recently pressed key as String or an empty String if no key was pressed.
-	 */
-	public String getKey() {
-		return GameScreen.convertKeyCode(getKeyCode(), getKeyModifiers());
-	}
-	
-	/**
 	 * Sets and initializes the specified screen state. Before the new screen is
 	 * initialized, all objects in the world are removed.
 	 * 
@@ -346,7 +239,8 @@ public class GameScreen extends KaraWorld {
 	}
 
 	/**
-	 * Removes the tiled background images and sets the bg color to black with no grid.
+	 * Removes the tiled background images and sets the bg color to black with
+	 * no grid.
 	 */
 	public void createBlackBackground() {
 		clearFieldBackground();
@@ -512,7 +406,7 @@ public class GameScreen extends KaraWorld {
 	}
 
 	/**
-	 * The act method is called by the greenfoot framework at each action step.
+	 * The act method is called by the framework at each action step.
 	 * The world's act method is called before the act method of any objects in
 	 * the world.
 	 * <p>
@@ -524,7 +418,6 @@ public class GameScreen extends KaraWorld {
 		state.act();
 	}
 	
-	
 	/**
 	 * Creates an ASCII-representation of all the actors in the world.
 	 * 
@@ -532,5 +425,108 @@ public class GameScreen extends KaraWorld {
 	 */
 	protected String toASCIIText() {
 		return Level.createFromActors(getActors(), 0, "XXXX").toASCIIText(false);
+	}
+
+	/** 
+	 * Set to true to directly show the game (for testing and level design). Set to false for normal mode. <br>
+	 * <i>Bei true wird direkt das Spielfeld angezeigt (zum Testen und Level Erstellen). Fuer Normaler Modus auf false setzen.</i>)
+	 */
+	public void setDeveloperMode(boolean developerMode) {
+		this.developerMode = developerMode;
+	}
+
+	/**
+	 * Set to true to enable the highscore. <br>
+	 * <i>Wenn auf true gesetzt, dann wir die Highscore aktiviert.</i>
+	 */
+	public void setHighscoreEnabled(boolean highscoreEnabled) {
+		this.highscoreEnabled = highscoreEnabled;
+	}
+
+	/**
+	 * Returns true, if the highscore is enabled.
+	 * @return
+	 */
+	public boolean isHighscoreEnabled() {
+		return highscoreEnabled;
+	}
+
+	/**
+	 * Helper method to add a label to the world.
+	 * 
+	 * @param label
+	 *            the label that should be added to the world.
+	 * @param x
+	 *            the x position of the actor in the grid.
+	 * @param y
+	 *            the y position of the actor in the grid.
+	 */
+	public void addObject(Label label, int x, int y) {
+		label.addToWorld(x, y);
+	}
+
+	/**
+	 * Converts the key code to a String representation resembling the Greenfoot keys.
+	 * 
+	 * <ul>
+	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
+	 * 		Also returns uppercase characters when appropriate.</li>
+	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
+	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
+	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
+	 * </ul>
+	 * 
+	 * @param keyCode
+	 * @return the key or an empty String if the keycode was KeyEvent.CHAR_UNDEFINED.
+	 */
+	public String convertKeyCode(int keyCode, int keyModifiers) {
+		switch (keyCode) {
+		case KeyEvent.VK_LEFT: return "left";
+		case KeyEvent.VK_RIGHT: return "right";
+		case KeyEvent.VK_DOWN: return "down";
+		case KeyEvent.VK_UP: return "up";
+		case KeyEvent.VK_ENTER: return "enter";
+		case KeyEvent.VK_SPACE: return "space";
+		case KeyEvent.VK_TAB: return "tab";
+		case KeyEvent.VK_ESCAPE: return "escape";
+		case KeyEvent.VK_BACK_SPACE: return "backspace";
+		case KeyEvent.VK_SHIFT: return "shift";
+		case KeyEvent.VK_CONTROL: return "control";
+		case KeyEvent.VK_PERIOD: return ".";
+		case KeyEvent.VK_COMMA: return ",";
+		case KeyEvent.VK_EXCLAMATION_MARK: return "!";
+		case KeyEvent.VK_SEMICOLON: return ";";
+		case KeyEvent.VK_COLON: return ":";
+		case KeyEvent.CHAR_UNDEFINED: return "";
+		default: 
+			String letter = KeyEvent.getKeyText(keyCode);
+			if (letter != null && letter.length() == 1) {
+				if (keyModifiers == InputEvent.SHIFT_MASK) {
+					return letter.toUpperCase();
+				} else {
+					return letter.toLowerCase();
+				}
+			}
+			return "";
+		}
+	}
+
+	/**
+	 * Gets the most recently pressed key <br>
+	 * <i>Ermittelt die zuletzt gedrueckte Taste</i>.
+	 * <p>
+	 * 
+	 * <ul>
+	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
+	 * 		Also returns uppercase characters when appropriate.</li>
+	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
+	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
+	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
+	 * </ul>
+	 * 
+	 * @return the most recently pressed key as String or an empty String if no key was pressed.
+	 */
+	public String getKey() {
+		return convertKeyCode(getKeyCode(), getKeyModifiers());
 	}
 }
