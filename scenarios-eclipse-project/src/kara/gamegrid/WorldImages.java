@@ -1,4 +1,4 @@
-package kara.gamegrid.world;
+package kara.gamegrid;
 
 import java.awt.image.BufferedImage;
 

@@ -2,7 +2,6 @@ package kara.gamegrid.sokoban;
 
 import java.awt.Font;
 
-import kara.gamegrid.world.GameScreen;
 
 
 /**

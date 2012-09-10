@@ -4,8 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import kara.gamegrid.world.GameScreen;
-import kara.gamegrid.world.WorldSetup;
+import kara.gamegrid.WorldSetup;
 
 import ch.aplu.jgamegrid.Actor;
 

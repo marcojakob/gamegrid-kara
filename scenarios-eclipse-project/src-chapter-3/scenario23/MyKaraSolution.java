@@ -1,8 +1,8 @@
 package scenario23;
 
 
-import kara.gamegrid.actor.Kara;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.Kara;
+import kara.gamegrid.KaraWorld;
 
 
 /**
@@ -56,6 +56,8 @@ public class MyKaraSolution extends Kara {
 				}
 			}
 		}
+		
+		stop();
 	}
 
 	public void processRow() {

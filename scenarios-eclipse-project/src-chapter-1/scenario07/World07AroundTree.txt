@@ -1,4 +1,4 @@
-World: 07 Around Tree 
+World: Kara 07 Around Tree 
 X: 10
 Y: 10
 

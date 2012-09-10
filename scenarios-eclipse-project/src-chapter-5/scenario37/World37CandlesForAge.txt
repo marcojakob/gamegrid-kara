@@ -1,4 +1,4 @@
-World: 37 Candles for Age 
+World: Kara 37 Candles For Age 
 X: 25
 Y: 20
 

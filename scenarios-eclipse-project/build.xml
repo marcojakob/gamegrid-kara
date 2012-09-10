@@ -63,7 +63,7 @@
 			<param name="chapter" value="chapter-5" />
 		</antcall>
 		
-		<!-- Create All zips -->
+		<!-- Create the "All" zips -->
 		<zip destfile="${zipFolder}/scenarios-all.zip" >
 			<fileset dir="${targetProjectsFolder}">
 				<exclude name="*solutions/**" />

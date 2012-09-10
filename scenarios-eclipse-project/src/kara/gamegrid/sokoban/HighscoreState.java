@@ -3,8 +3,7 @@ package kara.gamegrid.sokoban;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import kara.gamegrid.world.GameScreen;
-import kara.gamegrid.world.WorldImages;
+import kara.gamegrid.WorldImages;
 
 import ch.aplu.jgamegrid.GGImage;
 

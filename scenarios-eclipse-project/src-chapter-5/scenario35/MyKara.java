@@ -1,8 +1,8 @@
 package scenario35;
 
 
-import kara.gamegrid.actor.KaraIO;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.KaraWorld;
+import kara.gamegrid.io.KaraIO;
 
 
 /**

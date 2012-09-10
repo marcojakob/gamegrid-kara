@@ -1,8 +1,8 @@
 package scenario07;
 
 
-import kara.gamegrid.actor.Kara;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.Kara;
+import kara.gamegrid.KaraWorld;
 
 
 /**
@@ -20,38 +20,40 @@ public class MyKaraSolution extends Kara {
      * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert werden</i>
      */
 	public void act() {
-        move();
-        
-        turnLeft(); 
-        move();
-        turnRight(); 
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
+		move();
 
-        turnLeft(); 
-        move();
-        turnRight();
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
-        
-        move();
+		turnLeft();
+		move();
+		turnRight();
+		move();
+		move();
+		turnRight();
+		move();
+		turnLeft();
 
-        turnLeft(); 
-        move();
-        turnRight();
-        move();
-        move();
-        turnRight();
-        move();
-        turnLeft();
-        
-        removeLeaf();
+		turnLeft();
+		move();
+		turnRight();
+		move();
+		move();
+		turnRight();
+		move();
+		turnLeft();
+
+		move();
+
+		turnLeft();
+		move();
+		turnRight();
+		move();
+		move();
+		turnRight();
+		move();
+		turnLeft();
+
+		removeLeaf();
+
+		stop();
 	}
 	
 	

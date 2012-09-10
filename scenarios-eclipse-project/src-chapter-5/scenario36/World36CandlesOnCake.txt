@@ -1,4 +1,4 @@
-World: 36 Candles on Cake 
+World: Kara 36 Candles On Cake 
 X: 25
 Y: 20
 

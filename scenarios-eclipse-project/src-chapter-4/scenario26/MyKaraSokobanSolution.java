@@ -1,15 +1,17 @@
 package scenario26;
 
 
-import kara.gamegrid.actor.KaraSokoban;
-import kara.gamegrid.world.GameScreen;
+import java.util.Random;
+
+import kara.gamegrid.sokoban.GameScreen;
+import kara.gamegrid.sokoban.KaraSokoban;
 
 
 /**
  * MyKara is a subclass of KaraSokoban. Therefore, it inherits all methods of KaraSokoban <p>
  * <i>MyKara ist eine Unterklasse von KaraSokoban. Sie erbt damit alle Methoden der Klasse KaraSokoban</i> <p>
  */
-public class MyKaraSolution extends KaraSokoban {
+public class MyKaraSokobanSolution extends KaraSokoban {
 	
     int counter = 0;
 
@@ -42,12 +44,13 @@ public class MyKaraSolution extends KaraSokoban {
 	}
 
     /**
-     * Kara makes one step. This method first tests if Kara can move or if he has to move
-     * a mushroom first. <p> 
-     * 
-     * Kara macht einen Schritt. Diese Methode schaut zuerst, ob sich Kara bewegen kann 
-     * oder ob er zuerst noch einen Pilz schieben muss.
-     */
+	 * Kara makes one step. This method first tests if Kara can move or if he
+	 * has to move a mushroom first.
+	 * <p>
+	 * 
+	 * Kara macht einen Schritt. Diese Methode schaut zuerst, ob sich Kara
+	 * bewegen kann oder ob er zuerst noch einen Pilz schieben muss.
+	 */
 	public void tryToMove() {
 		if (!treeFront()) {
 			if (mushroomFront()) {
@@ -91,9 +94,11 @@ public class MyKaraSolution extends KaraSokoban {
 	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		GameScreen game = new GameScreen("LevelsBoxxle1.txt", MyKaraSolution.class);
+		GameScreen game = new GameScreen("LevelsBoxxle1.txt", MyKaraSokobanSolution.class);
 		game.setDeveloperMode(false);
 		game.setHighscoreEnabled(true);
 		game.show();
+		Random r = new Random();
+		System.out.println(r.nextInt(10));
 	}
 }

@@ -1,8 +1,8 @@
 package scenario36;
 
 
-import kara.gamegrid.actor.KaraIO;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.KaraWorld;
+import kara.gamegrid.io.KaraIO;
 
 
 /**
@@ -22,6 +22,8 @@ public class MyKaraSolution extends KaraIO {
 	public void act() {
 		drawRectangle(21, 4);
 		drawCandles(10);
+		
+		stop();
 	}
 
 	public void drawCandles(int count) {

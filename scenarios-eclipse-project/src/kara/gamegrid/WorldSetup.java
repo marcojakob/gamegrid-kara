@@ -1,4 +1,4 @@
-package kara.gamegrid.world;
+package kara.gamegrid;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,10 +16,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import kara.gamegrid.actor.Kara.KaraDelegate;
-import kara.gamegrid.actor.Leaf;
-import kara.gamegrid.actor.Mushroom;
-import kara.gamegrid.actor.Tree;
+import kara.gamegrid.Kara.KaraDelegate;
+
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGBitmap;
 

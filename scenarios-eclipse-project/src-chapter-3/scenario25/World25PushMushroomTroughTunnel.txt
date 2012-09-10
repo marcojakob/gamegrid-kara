@@ -1,4 +1,4 @@
-World: 25 Push Mushroom trough Tunnel 
+World: Kara 25 Push Mushroom Trough Tunnel 
 X: 20
 Y: 9
 ########    ########

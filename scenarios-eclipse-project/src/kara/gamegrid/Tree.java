@@ -1,6 +1,5 @@
-package kara.gamegrid.actor;
+package kara.gamegrid;
 
-import kara.gamegrid.world.WorldImages;
 import ch.aplu.jgamegrid.Actor;
 
 /**

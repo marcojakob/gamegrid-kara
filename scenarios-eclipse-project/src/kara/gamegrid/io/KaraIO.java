@@ -1,6 +1,8 @@
-package kara.gamegrid.actor;
+package kara.gamegrid.io;
 
 import javax.swing.JOptionPane;
+
+import kara.gamegrid.Kara;
 
 /**
  * KaraIO extends the functionality of Kara by adding input/output methods.

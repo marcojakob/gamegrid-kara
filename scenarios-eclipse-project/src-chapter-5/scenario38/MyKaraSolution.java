@@ -1,8 +1,8 @@
 package scenario38;
 
 
-import kara.gamegrid.actor.KaraIO;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.KaraWorld;
+import kara.gamegrid.io.KaraIO;
 
 
 /**
@@ -23,6 +23,8 @@ public class MyKaraSolution extends KaraIO {
 	public void act() {
 		int age = intInput("How old is your grandmother?");
 		drawLayers(age / 10 - 5);
+		
+		stop();
 	}
 
 	public void drawLayers(int layers) {

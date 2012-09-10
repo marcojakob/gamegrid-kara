@@ -1,15 +1,15 @@
 package scenario26;
 
 
-import kara.gamegrid.actor.KaraSokoban;
-import kara.gamegrid.world.GameScreen;
+import kara.gamegrid.sokoban.GameScreen;
+import kara.gamegrid.sokoban.KaraSokoban;
 
 
 /**
  * MyKara is a subclass of KaraSokoban. Therefore, it inherits all methods of KaraSokoban <p>
  * <i>MyKara ist eine Unterklasse von KaraSokoban. Sie erbt damit alle Methoden der Klasse KaraSokoban</i> <p>
  */
-public class MyKara extends KaraSokoban {
+public class MyKaraSokoban extends KaraSokoban {
 	
     /**
      * In the 'act()' method you can write your program for Kara <br>
@@ -27,7 +27,7 @@ public class MyKara extends KaraSokoban {
 	 * <i>Die main-Methode ist der Start des Programms, wo die Kara Welt geladen wird</i>
 	 */
 	public static void main(String[] args) {
-		GameScreen game = new GameScreen("Levels.txt", MyKara.class);
+		GameScreen game = new GameScreen("Levels.txt", MyKaraSokoban.class);
 		game.setDeveloperMode(true);
 		game.setHighscoreEnabled(false);
 		game.show();

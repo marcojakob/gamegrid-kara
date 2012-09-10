@@ -24,6 +24,8 @@
 * Switching to Java 6 compliance because of Greenfoot. Greenfoot is not
 	able to use Java 7 at the moment.
 * Made some adjustments to have similar code as GreenfootKara.
+* Kara now has a stop() method to stop the simulation cycle. Now we can always use the
+	run button.
 
 
 ## GameGridKara 1.3.3 

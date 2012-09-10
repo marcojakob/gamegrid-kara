@@ -1,4 +1,4 @@
-World: 35 Baking a Cake 
+World: Kara 35 Baking A Cake 
 X: 25
 Y: 20
 

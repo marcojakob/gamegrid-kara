@@ -1,4 +1,4 @@
-World: 20a Kara as Guard 
+World: Kara 20a Kara As Guard 
 X: 9
 Y: 9
 Kara: up
@@ -11,7 +11,7 @@ Kara: up
  #..#
   ###
 
-World: 20b Kara as Guard 
+World: Kara 20b Kara As Guard 
 X: 9
 Y: 9
 Kara: left

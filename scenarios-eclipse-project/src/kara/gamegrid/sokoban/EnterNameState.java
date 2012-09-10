@@ -2,8 +2,7 @@ package kara.gamegrid.sokoban;
 
 import java.awt.Color;
 
-import kara.gamegrid.world.GameScreen;
-import kara.gamegrid.world.WorldImages;
+import kara.gamegrid.WorldImages;
 
 
 /**

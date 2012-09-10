@@ -1,4 +1,4 @@
-World: 24 The Longest Tree Line 
+World: Kara 24 The Longest Tree Line 
 X: 20
 Y: 10
 

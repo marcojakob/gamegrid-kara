@@ -1,4 +1,4 @@
-World: 21 Counting Leafs 
+World: Kara 21 Counting Leafs 
 X: 20
 Y: 1
 @  .  ..  . . .   .#

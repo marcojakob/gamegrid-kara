@@ -1,4 +1,4 @@
-package scenario13;
+package scenario01;
 
 
 import kara.gamegrid.Kara;
@@ -20,16 +20,7 @@ public class MyKaraSolution extends Kara {
      * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert werden</i>
      */
 	public void act() {
-		if (treeLeft() || treeRight()) {
-			putLeaf();
-			move();
-		} else {
-			move();
-		}
-		
-		if (onLeaf()) {
-			stop();
-		}
+		// No solution for scenario 01 because it is done with the mouse
 	}
 	
 	

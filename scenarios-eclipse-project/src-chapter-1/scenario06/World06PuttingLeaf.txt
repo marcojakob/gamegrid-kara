@@ -1,4 +1,4 @@
-World: 06 Putting Leaf
+World: Kara 06 Putting Leaf
 X: 10
 Y: 10
 

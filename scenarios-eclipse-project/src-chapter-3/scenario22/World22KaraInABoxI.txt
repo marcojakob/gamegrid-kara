@@ -1,4 +1,4 @@
-World: 22 Kara in a Box I 
+World: Kara 22 Kara In A Box I 
 X: 9
 Y: 9
 #########

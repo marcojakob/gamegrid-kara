@@ -1,8 +1,8 @@
 package scenario18;
 
 
-import kara.gamegrid.actor.Kara;
-import kara.gamegrid.world.KaraWorld;
+import kara.gamegrid.Kara;
+import kara.gamegrid.KaraWorld;
 
 
 /**
@@ -30,6 +30,8 @@ public class MyKaraSolution extends Kara {
 
 		// Found leaf --> eat it
 		removeLeaf();
+		
+		stop();
 	}
 
 	public void goAroundTree() {

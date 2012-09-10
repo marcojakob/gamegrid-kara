@@ -1,9 +1,7 @@
-package kara.gamegrid.actor;
+package kara.gamegrid;
 
 import javax.swing.JOptionPane;
 
-import kara.gamegrid.world.KaraWorld;
-import kara.gamegrid.world.WorldImages;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GameGrid;
@@ -40,13 +38,6 @@ public abstract class Kara {
 		actorDelegate = new KaraDelegate(this);
 	}
 	
-	/**
-	 * In the 'act()' method you can write your program for Kara <br>
-	 * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert
-	 * werden</i>
-	 */
-	public abstract void act();
-
 	/**
 	 * Kara makes a step in the current direction <br>
 	 * <i>Kara macht einen Schritt in die aktuelle Richtung</i>
@@ -189,14 +180,31 @@ public abstract class Kara {
 	public boolean mushroomFront() {
 		return getObjectInFront(actorDelegate.getIntDirection(), 1, Mushroom.class) != null;
 	}
+	
+	/**
+	 * In the 'act()' method you can write your program for Kara <br>
+	 * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert
+	 * werden</i>
+	 */
+	public abstract void act();
 
+	/**
+	 * Stops the simulation cycle (the act()-method is finished first) <br>
+	 * <i>Stoppt die Simulation (die act()-Methode wird noch bis unten ausgefuehrt)</i>
+	 */
+	protected void stop() {
+		getWorld().doPause();
+	}
+	
+	
+	
 	/*----- END OF STANDARD KARA METHODS! BELOW ARE JUST SOME HELPER METHODS ----- */
 
 	/**
 	 * Shows a popup with a warning message containing both the english or
 	 * german message.
 	 */
-	void showWarning(String englishMessage, String germanMessage) {
+	protected void showWarning(String englishMessage, String germanMessage) {
 		String message = "<html>" + englishMessage + "<p><i>" + germanMessage
 				+ "</i></html>";
 	
@@ -220,7 +228,7 @@ public abstract class Kara {
 	 * 
 	 * @return
 	 */
-	KaraWorld getWorld() {
+	protected KaraWorld getWorld() {
 		return actorDelegate.getWorld();
 	}
 
@@ -235,7 +243,7 @@ public abstract class Kara {
 	 *            the (actor) class to look for
 	 * @return the object that was found or null if none was found
 	 */
-	Object getObjectInFront(int direction, int steps, Class<?> clazz) {
+	protected Object getObjectInFront(int direction, int steps, Class<?> clazz) {
 		int x = actorDelegate.getX();
 		int y = actorDelegate.getY();
 

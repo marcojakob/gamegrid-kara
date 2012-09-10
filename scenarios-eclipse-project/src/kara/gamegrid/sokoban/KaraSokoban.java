@@ -1,9 +1,11 @@
-package kara.gamegrid.actor;
+package kara.gamegrid.sokoban;
 
 import java.util.List;
 
-import kara.gamegrid.sokoban.Highscore;
-import kara.gamegrid.world.GameScreen;
+import kara.gamegrid.Kara;
+import kara.gamegrid.Leaf;
+import kara.gamegrid.Mushroom;
+import kara.gamegrid.Tree;
 import ch.aplu.jgamegrid.Actor;
 
 /**

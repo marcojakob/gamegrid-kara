@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import kara.gamegrid.world.GameScreen;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGBitmap;

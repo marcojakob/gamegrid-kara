@@ -1,6 +1,5 @@
 package kara.gamegrid.sokoban;
 
-import kara.gamegrid.world.GameScreen;
 
 /**
  * The ScreenState is an abstract class for the screens in the game.

@@ -1,4 +1,4 @@
-package kara.gamegrid.world;
+package kara.gamegrid;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -20,10 +20,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import kara.gamegrid.actor.Kara;
-import kara.gamegrid.actor.Leaf;
-import kara.gamegrid.actor.Mushroom;
-import kara.gamegrid.actor.Tree;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGMouse;
 import ch.aplu.jgamegrid.GGMouseListener;
@@ -64,7 +60,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	
 	private PaintOrderComparator paintOrderComparator = new PaintOrderComparator(PAINT_ORDER);
     
-    Class<? extends Kara> karaClass;
+    protected Class<? extends Kara> karaClass;
     
     /**
      * Contains an enumeration of settings for the mouse used inside the world.
@@ -229,7 +225,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	 * This method may be overridden by subclasses to provide their own means to
 	 * initialize actors, e.g. by calling {@link #addObject()}.
 	 */
-	public void prepare() {
+	protected void prepare() {
 		if (worldSetup != null) {
 			initActorsFromWorldSetup(worldSetup);
 		}

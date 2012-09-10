@@ -1,4 +1,4 @@
-package kara.gamegrid.world;
+package kara.gamegrid.sokoban;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,24 +7,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
 
-import kara.gamegrid.actor.Kara;
-import kara.gamegrid.actor.KaraSokoban;
-import kara.gamegrid.actor.Leaf;
-import kara.gamegrid.actor.Mushroom;
-import kara.gamegrid.actor.Tree;
-import kara.gamegrid.sokoban.EnterNameState;
-import kara.gamegrid.sokoban.FileHighscore;
-import kara.gamegrid.sokoban.GameCompleteState;
-import kara.gamegrid.sokoban.GameState;
-import kara.gamegrid.sokoban.Highscore;
-import kara.gamegrid.sokoban.HighscoreManager;
-import kara.gamegrid.sokoban.HighscoreState;
-import kara.gamegrid.sokoban.Label;
-import kara.gamegrid.sokoban.Level;
-import kara.gamegrid.sokoban.LevelCompleteState;
-import kara.gamegrid.sokoban.LevelSplashState;
-import kara.gamegrid.sokoban.ScreenState;
-import kara.gamegrid.sokoban.StartState;
+import kara.gamegrid.Kara;
+import kara.gamegrid.KaraWorld;
+import kara.gamegrid.Leaf;
+import kara.gamegrid.Mushroom;
+import kara.gamegrid.Tree;
 
 /**
  * This is the world for the Kara Sokoban game:
@@ -90,6 +77,8 @@ public class GameScreen extends KaraWorld {
 		super(WIDTH_IN_CELLS, HEIGHT_IN_CELLS, karaClass);
 		this.levelFileName = levelFileName;
 		
+		setTitle("Kara Sokoban");
+		
 		setPaintOrder(Label.class, KaraSokoban.class, Tree.class,
 				Mushroom.class, Leaf.class);
 	}
@@ -105,7 +94,7 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Initializes the GameScreen.
 	 */
-	public void prepare() {
+	protected void prepare() {
 		if (developerMode) {
 			setMouseDragAndDrop(MouseSettings.DISABLED_WHEN_RUNNING);
 			setMouseContextMenu(MouseSettings.DISABLED_WHEN_RUNNING);
@@ -166,7 +155,7 @@ public class GameScreen extends KaraWorld {
 	 * @param state
 	 *            the new state of the screen
 	 */
-	public void setState(ScreenState state) {
+	protected void setState(ScreenState state) {
 		setState(state, true);
 	}
 
@@ -179,7 +168,7 @@ public class GameScreen extends KaraWorld {
 	 *            if true, all objects in the world are removed before the new
 	 *            state is initialized.
 	 */
-	public void setState(ScreenState state, boolean clearWorld) {
+	protected void setState(ScreenState state, boolean clearWorld) {
 		if (clearWorld) {
 			// Remove all objects in the world
 			removeAllActors();
@@ -192,49 +181,49 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns the start screen state.
 	 */
-	public ScreenState getStartState() {
+	protected ScreenState getStartState() {
 		return startState;
 	}
 
 	/**
 	 * Returns the enter name screen state.
 	 */
-	public ScreenState getEnterNameState() {
+	protected ScreenState getEnterNameState() {
 		return enterNameState;
 	}
 
 	/**
 	 * Returns the level splash screen state.
 	 */
-	public ScreenState getLevelSplashState() {
+	protected ScreenState getLevelSplashState() {
 		return levelSplashState;
 	}
 
 	/**
 	 * Returns the game screen state.
 	 */
-	public ScreenState getGameState() {
+	protected ScreenState getGameState() {
 		return gameState;
 	}
 
 	/**
 	 * Returns the level complete screen state.
 	 */
-	public ScreenState getLevelCompleteState() {
+	protected ScreenState getLevelCompleteState() {
 		return levelCompleteState;
 	}
 
 	/**
 	 * Returns the game complete screen state.
 	 */
-	public ScreenState getGameCompleteState() {
+	protected ScreenState getGameCompleteState() {
 		return gameCompleteState;
 	}
 
 	/**
 	 * Returns the highscore screen state.
 	 */
-	public ScreenState getHighscoreState() {
+	protected ScreenState getHighscoreState() {
 		return highscoreState;
 	}
 
@@ -242,7 +231,7 @@ public class GameScreen extends KaraWorld {
 	 * Removes the tiled background images and sets the bg color to black with
 	 * no grid.
 	 */
-	public void createBlackBackground() {
+	protected void createBlackBackground() {
 		clearFieldBackground();
 		setBgColor(Color.BLACK);
 	}
@@ -250,35 +239,35 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns all the levels.
 	 */
-	public Level[] getAllLevels() {
+	protected Level[] getAllLevels() {
 		return allLevels;
 	}
 
 	/**
 	 * Returns the total number of levels.
 	 */
-	public int getNumberOfLevels() {
+	protected int getNumberOfLevels() {
 		return allLevels.length;
 	}
 
 	/**
 	 * Sets the level number for the current level.
 	 */
-	public void setCurrentLevelNumber(int currentLevelNumber) {
+	protected void setCurrentLevelNumber(int currentLevelNumber) {
 		this.currentLevelNumber = currentLevelNumber;
 	}
 
 	/**
 	 * Returns the level number for the current level.
 	 */
-	public int getCurrentLevelNumber() {
+	protected int getCurrentLevelNumber() {
 		return currentLevelNumber;
 	}
 
 	/**
 	 * Returns the current level or null, if levels could not be loaded.
 	 */
-	public Level getCurrentLevel() {
+	protected Level getCurrentLevel() {
 		if (currentLevelNumber > 0 && currentLevelNumber - 1 < allLevels.length) {
 			return allLevels[currentLevelNumber - 1];
 		}
@@ -288,7 +277,7 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns the level with the specified number.
 	 */
-	public Level getLevel(int levelNumber) {
+	protected Level getLevel(int levelNumber) {
 		if (levelNumber > 0 && levelNumber - 1 < allLevels.length) {
 			return allLevels[levelNumber - 1];
 		}
@@ -298,28 +287,28 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns the number of moves that were made.
 	 */
-	public int getNumberOfMoves() {
+	protected int getNumberOfMoves() {
 		return numberOfMoves;
 	}
 
 	/**
 	 * Sets the number of moves.
 	 */
-	public void setNumberOfMoves(int moves) {
+	protected void setNumberOfMoves(int moves) {
 		numberOfMoves = moves;
 	}
 
 	/**
 	 * Returns true if the current level is complete.
 	 */
-	public boolean isLevelComplete() {
+	protected boolean isLevelComplete() {
 		return levelComplete;
 	}
 
 	/**
 	 * Sets whether the current level is complete.
 	 */
-	public void setLevelComplete(boolean levelComplete) {
+	protected void setLevelComplete(boolean levelComplete) {
 		this.levelComplete = levelComplete;
 	}
 
@@ -328,7 +317,7 @@ public class GameScreen extends KaraWorld {
 	 * 
 	 * @return true if the game is complete
 	 */
-	public boolean isGameComplete() {
+	protected boolean isGameComplete() {
 		return isLevelComplete()
 				&& getCurrentLevelNumber() >= getNumberOfLevels();
 	}
@@ -336,14 +325,14 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns if the highscore is enabled and available.
 	 */
-	public boolean isHighscoreAvailable() {
+	protected boolean isHighscoreAvailable() {
 		return highscoreManager != null;
 	}
 
 	/**
 	 * Returns if the highscore is enabled and available.
 	 */
-	public boolean isHighscoreReadOnly() {
+	protected boolean isHighscoreReadOnly() {
 		if (highscoreManager == null) {
 			return true;
 		}
@@ -355,7 +344,7 @@ public class GameScreen extends KaraWorld {
 	 * Returns the name of the current player or empty String if none has been
 	 * set.
 	 */
-	public String getPlayerName() {
+	protected String getPlayerName() {
 		if (highscoreManager == null) {
 			return "";
 		}
@@ -366,7 +355,7 @@ public class GameScreen extends KaraWorld {
 	 * Sets the name of the current player. (Will be ignored if ServerHighscore
 	 * is used since the username of UserInfo is used).
 	 */
-	public void setPlayerName(String playerName) {
+	protected void setPlayerName(String playerName) {
 		if (highscoreManager == null) {
 			return;
 		}
@@ -376,7 +365,7 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns true if the name of the current player can be set.
 	 */
-	public boolean canSetPlayerName() {
+	protected boolean canSetPlayerName() {
 		// Name of player can only be set if using the FileHighscore.
 		return highscoreManager instanceof FileHighscore;
 	}
@@ -384,14 +373,14 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Returns the Highscore for the current level. May be null.
 	 */
-	public Highscore getHighscoreForCurrentLevel() {
+	protected Highscore getHighscoreForCurrentLevel() {
 		return getHighscoreForLevel(currentLevelNumber);
 	}
 
 	/**
 	 * Returns the Highscore for the specified level.
 	 */
-	public Highscore getHighscoreForLevel(int levelNumber) {
+	protected Highscore getHighscoreForLevel(int levelNumber) {
 		if (highscoreManager == null) {
 			return null;
 		}
@@ -401,7 +390,7 @@ public class GameScreen extends KaraWorld {
 	/**
 	 * Sets the specified Highscore.
 	 */
-	public void setHighscore(Highscore highscore) {
+	protected void setHighscore(Highscore highscore) {
 		highscoreManager.setHighscore(highscore);
 	}
 
