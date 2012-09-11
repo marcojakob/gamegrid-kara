@@ -1,11 +1,14 @@
 package kara.gamegrid;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,7 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import kara.gamegrid.Kara.KaraDelegate;
-
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGBitmap;
 
@@ -391,7 +393,7 @@ public class WorldSetup {
 			List<File> matchingFiles = findMatchingFiles(fileName, clazz);
 			
 			for (File matchingFile : matchingFiles) {
-				List<String> lines = Files.readAllLines(matchingFile.toPath(), Charset.defaultCharset());
+				List<String> lines = FileUtils.readAllLines(matchingFile);
 				
 				Builder currentBuilder = null;
 				
@@ -489,7 +491,7 @@ public class WorldSetup {
 			// Option 1: try to get file relative to class
 			if (clazz != null) {
 				File dir = new File(clazz.getResource(".").toURI());
-				List<File> files = FileUtil.scan(dir, fileName);
+				List<File> files = FileUtils.scan(dir, fileName);
 				if (!files.isEmpty()) {
 					return files;
 				}
@@ -497,14 +499,14 @@ public class WorldSetup {
 			
 			// Option 2: try to get file relative to package root (may be inside jar)
 			File dir2 = new File(Thread.currentThread().getContextClassLoader().getResource(".").toURI());
-			List<File> files2 = FileUtil.scan(dir2, fileName);
+			List<File> files2 = FileUtils.scan(dir2, fileName);
 			if (!files2.isEmpty()) {
 				return files2;
 			}
 			
 			// Option 3: try to get file relative to project root (outside of jar)
 			File dir3 = new File(".");
-			List<File> files3 = FileUtil.scan(dir3, fileName);
+			List<File> files3 = FileUtils.scan(dir3, fileName);
 			if (!files3.isEmpty()) {
 				// Note: only get the first match
 				return files3;
@@ -750,7 +752,7 @@ public class WorldSetup {
 	/**
 	 * Utility class for loading and saving files.
 	 */
-	public static class FileUtil {
+	public static class FileUtils {
 
 		/**
 		 * Opens a file chooser dialog to ask the user for a filename. If
@@ -805,7 +807,7 @@ public class WorldSetup {
 						&& !chosenFile.getName().endsWith(".TXT")) {
 					chosenFile = new File(chosenFile.getAbsolutePath() + ".txt");
 				}
-				Files.write(chosenFile.toPath(), content.getBytes());
+				FileUtils.writeToFile(chosenFile, content);
 			}
 		}
 
@@ -861,5 +863,60 @@ public class WorldSetup {
 			}
 			return false;
 		}
+		
+	    /**
+		 * Read all lines from a file.
+		 * 
+		 * @param file
+		 *            the file to read from
+		 * @return the lines from the file as a {@code List}.
+		 * 
+		 * @throws IOException
+		 *             if an I/O error occurs reading from the file.
+		 */
+	    public static List<String> readAllLines(File file) throws IOException {
+	    	List<String> result = new ArrayList<String>();
+	    	BufferedReader reader = null;
+	    	try {
+	    		reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))); 
+	    		
+	    		for (;;) {
+	    			String line = reader.readLine();
+	    			if (line == null) {
+	    				break;
+	    			}
+	    			result.add(line);
+	    		}
+	    	} finally {
+	    		if (reader != null) {
+	    			reader.close();
+	    		}
+	    	}
+            return result;
+	    }
+	    
+	    /**
+		 * Writes to the specified file.
+		 * 
+		 * @param file
+		 *            The file to write to
+		 * @param content
+		 *            The content to write.
+		 * @throws IOException
+		 *             if an I/O error occurs writing to the file.
+		 */
+	    public static void writeToFile(File file, String content) throws IOException {
+	    	FileWriter fstream = new FileWriter(file);
+	    	BufferedWriter out = new BufferedWriter(fstream);
+			try {
+				out.write(content);
+				out.flush();
+			} finally {
+				// Close the output stream
+				if (out != null) {
+					out.close();
+				}
+			}
+	    }
 	}
 }

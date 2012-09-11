@@ -439,7 +439,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	 */
 	public void saveWorldSetupToFile() {
 		try {
-			WorldSetup.FileUtil.saveToFileWithDialog(toASCIIText());
+			WorldSetup.FileUtils.saveToFileWithDialog(toASCIIText());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
