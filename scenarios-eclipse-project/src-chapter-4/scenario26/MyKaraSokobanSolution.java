@@ -1,8 +1,6 @@
 package scenario26;
 
 
-import java.util.Random;
-
 import kara.gamegrid.sokoban.GameScreen;
 import kara.gamegrid.sokoban.KaraSokoban;
 
@@ -98,7 +96,5 @@ public class MyKaraSokobanSolution extends KaraSokoban {
 		game.setDeveloperMode(false);
 		game.setHighscoreEnabled(true);
 		game.show();
-		Random r = new Random();
-		System.out.println(r.nextInt(10));
 	}
 }
