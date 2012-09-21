@@ -2,7 +2,7 @@
 <project default="main">
 	<!-- Builds Eclipse Projects for each chapter and zips them -->
 
-	<property name="version">1.3.4</property>
+	<property name="version">2.0.0-beta.1</property>
 	<property name="gameGridVersion">2.20</property>
 
 	<property name="targetFolder">target</property>
@@ -64,13 +64,13 @@
 		</antcall>
 		
 		<!-- Create the "All" zips -->
-		<zip destfile="${zipFolder}/scenarios-all.zip" >
+		<zip destfile="${zipFolder}/scenarios-all-v${version}.zip" >
 			<fileset dir="${targetProjectsFolder}">
 				<exclude name="*solutions/**" />
 			</fileset>
 		</zip>
 
-		<zip destfile="${zipFolder}/scenarios-all-solutions.zip" >
+		<zip destfile="${zipFolder}/scenarios-all-solutions-v${version}.zip" >
 			<fileset dir="${targetProjectsFolder}">
 				<include name="*solutions/**" />
 			</fileset>
@@ -157,7 +157,7 @@
 	</target>
 
 	<target name="doZipProject">
-		<zip destfile="${zipFolder}/${projectName}.zip" basedir="${targetProjectsFolder}/${projectName}" />
+		<zip destfile="${zipFolder}/${projectName}-v${version}.zip" basedir="${targetProjectsFolder}/${projectName}" />
 	</target>
 	
 	<target name="cleanTarget">
