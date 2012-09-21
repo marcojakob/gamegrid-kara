@@ -1,6 +1,6 @@
-# Changelog
+# Changelog #
 
-## GameGridKara 1.3.4
+## GameGridKara 2.0, not released ##
 
 * Custom replacement images can be placed in a folder called "images". See new class 
 	WorldImages.
@@ -26,9 +26,11 @@
 * Made some adjustments to have similar code as GreenfootKara.
 * Kara now has a stop() method to stop the simulation cycle. Now we can always use the
 	run button.
+* Kara Sokoban contains now an example of alternative images (skin). See Kara Sokoban
+	Solution.
 
-
-## GameGridKara 1.3.3 
+	
+## GameGridKara 1.3.3 ##
 
 * Drag-and-Drop improvements: Enable or disable Actor dra-and-drop in World class.
 * Solved bug in context-menu: Sometimes an new ...() entry was in the context menu 
