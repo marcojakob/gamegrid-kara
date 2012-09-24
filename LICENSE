@@ -1,24 +1,21 @@
-----------------------------------------------------------------
--- Copyright (ENGLISH) --
-----------------------------------------------------------------
-The copyright of Kara is held by Raimond Raicert et. al. (see http://www.swisseduc.ch/about/copyright/).
+Copyright (c) 2012 Marco Jakob
 
-The copyright of JGameGrid is held by Aegidius Plüss (see http://www.aplu.ch/).
+GameGridKara's documents are licensed under the Creative Commons 
+Attribution 3.0 Unported License. To view a copy of this license, 
+visit http://creativecommons.org/licenses/by/3.0/
 
-The copyright of GameGridKara is held by to Marco Jakob (majakob@gmx.ch). The GNU Public License 
-(http://www.gnu.org/copyleft/gpl.html) applies to all resources of GameGridKara: The source code and other
-material of GameGridKara may be modified, but the changes must be published under GPL again and the original
-authors must be mentioned.
+GameGridKara's source code is licensed under the MIT License. To
+view a copy of this license, visit http://opensource.org/licenses/mit
 
 
-----------------------------------------------------------------
--- Copyright (GERMAN) --
-----------------------------------------------------------------
-Die Urheberrechte an Kara liegen bei Raimond Raichert et. al. (siehe http://www.swisseduc.ch/about/copyright/).
+===
 
-Die Urheberrechte an JGameGrid liegen bei Aegidius Plüss (siehe http://www.aplu.ch/).
+External libraries and resources used by GameGridKara:
 
-Die Urheberrechte an GameGridKara liegen bei Marco Jakob (majakob@gmx.ch). Fuer GameGridKara gelten die 
-Bestimmungen der GNU Public License (http://www.gnu.org/copyleft/gpl.html): Der Quellcode und das Material darf 
-veraendert werden, aber die Aenderungen müssen auch wieder unter der GPL publiziert werden, und die urspruengliche 
-Autorenschaft muss genannt werden.
+- Kara
+	The copyright of Kara is held by Raimond Raichert et. al. 
+	(see http://www.swisseduc.ch/about/copyright)
+
+- JGameGrid, located at lib/.
+	The copyright of JGameGrid is held by Aegidius Plüss 
+	(see http://www.aplu.ch/).
