@@ -1,6 +1,6 @@
 # Changelog #
 
-## GameGridKara 2.0, not released ##
+## GameGridKara 2.0, 2012-10-01 ##
 
 * Custom replacement images can be placed in a folder called "images". See new class 
 	WorldImages.

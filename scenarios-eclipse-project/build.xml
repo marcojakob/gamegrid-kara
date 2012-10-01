@@ -2,7 +2,7 @@
 <project default="main">
 	<!-- Builds Eclipse Projects for each chapter and zips them -->
 
-	<property name="version">2.0.0-beta.1</property>
+	<property name="version">2.0.0</property>
 	<property name="gameGridVersion">2.20</property>
 
 	<property name="targetFolder">target</property>
