@@ -11,7 +11,7 @@
 	<property name="jarName">GameGridKara-${version}.jar</property>
 
 	
-	<target name="main" depends="prepareTarget, buildProjects, cleanTarget" />
+	<target name="main" depends="prepareTarget, buildProjects" />
 
 	<target name="prepareTarget" depends="copyToTarget, jar" />
 
@@ -75,6 +75,9 @@
 				<include name="*solutions/**" />
 			</fileset>
 		</zip>
+		
+		<!-- Delete the target folder -->
+		<delete dir="${targetFolder}" />
 	</target>
 
 
