@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * Every Highscore contains three highscore entries for one specific level.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class Highscore {
 	public static final Entry EMPTY_ENTRY = new Entry("---", 0);

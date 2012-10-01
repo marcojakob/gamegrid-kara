@@ -24,7 +24,7 @@ import kara.gamegrid.Tree;
  * <li>the highscore
  * <ul>
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 @SuppressWarnings("serial")
 public class GameScreen extends KaraWorld {

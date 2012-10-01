@@ -3,7 +3,7 @@ package kara.gamegrid.sokoban;
 /**
  * The HighscoreManager is responsible for loading and storing Highscore.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public abstract class HighscoreManager {
 

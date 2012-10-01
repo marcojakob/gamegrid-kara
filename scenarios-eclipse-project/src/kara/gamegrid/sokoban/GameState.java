@@ -7,7 +7,7 @@ import java.awt.Color;
 /**
  * The game screen state.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class GameState extends ScreenState {
 	private Label moveCounterLabel;

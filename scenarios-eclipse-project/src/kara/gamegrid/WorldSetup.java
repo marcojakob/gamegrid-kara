@@ -55,7 +55,7 @@ import ch.aplu.jgamegrid.GGBitmap;
  * A line starting with a Semicolon (;) is a comment and is ignored by the
  * parser.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class WorldSetup {
 	public static final char UNDEFINED = '?';

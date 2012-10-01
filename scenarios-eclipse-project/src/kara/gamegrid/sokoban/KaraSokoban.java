@@ -15,7 +15,7 @@ import ch.aplu.jgamegrid.Actor;
  * <i>KaraSokoban erweitert die Funktionalitaet von Kara mit Methoden fuer das
  * Sokoban Spiel.</i>
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public abstract class KaraSokoban extends Kara {
 	private static final int DIRECTION_RIGHT = 0;

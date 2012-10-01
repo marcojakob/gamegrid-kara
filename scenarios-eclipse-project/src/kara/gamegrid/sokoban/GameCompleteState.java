@@ -8,7 +8,7 @@ import kara.gamegrid.WorldImages;
 /**
  * The game complete screen state.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class GameCompleteState extends ScreenState {
 	private Label trophyLabel;

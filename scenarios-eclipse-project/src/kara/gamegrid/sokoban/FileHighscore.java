@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Saves the highscores to a local file.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class FileHighscore extends HighscoreManager {
 	// The local file containing the highscores

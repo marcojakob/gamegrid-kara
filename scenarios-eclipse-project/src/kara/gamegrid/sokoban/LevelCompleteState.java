@@ -8,7 +8,7 @@ import kara.gamegrid.WorldImages;
 /**
  * The level complete screen state.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class LevelCompleteState extends ScreenState {
 	private Button nextLevelButton;

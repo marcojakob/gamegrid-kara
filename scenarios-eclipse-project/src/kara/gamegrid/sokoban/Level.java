@@ -18,7 +18,7 @@ import ch.aplu.jgamegrid.Actor;
  * After the level number and the password, the actor positions are described
  * (see {@link WorldSetup}).
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class Level extends WorldSetup {
 	public static final String TITLE_KEY = "Level:";

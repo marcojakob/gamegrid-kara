@@ -7,7 +7,7 @@ import ch.aplu.jgamegrid.Actor;
  * Mushrooms must be pushed onto a target (the Leafs). If a Mushroom is on
  * target, a target image is shown.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class Mushroom extends Actor {
 

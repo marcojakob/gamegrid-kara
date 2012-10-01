@@ -16,7 +16,7 @@ import ch.aplu.jgamegrid.Location;
  * Grundfunktionen von Kara. Programme sollten nur in den Unterklassen wie
  * MyKara geschrieben werden.</i>
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public abstract class Kara {
 	private static final int DIRECTION_RIGHT = 0;

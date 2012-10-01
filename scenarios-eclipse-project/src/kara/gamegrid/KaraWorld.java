@@ -34,7 +34,7 @@ import ch.aplu.jgamegrid.Location;
  * The World class sets up the grid for all the Actors. The initial actors are
  * placed inside the World according to a specified {@link WorldSetup}.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 @SuppressWarnings("serial")
 public class KaraWorld extends GameGrid implements GGMouseListener,

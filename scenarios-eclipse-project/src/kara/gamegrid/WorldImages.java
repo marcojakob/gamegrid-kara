@@ -20,7 +20,7 @@ import ch.aplu.jgamegrid.GGBitmap;
  * If no replacement images are found in the folder "images", the standard
  * images in the folder "default_images" are used.
  * 
- * @author Marco Jakob (majakob@gmx.ch)
+ * @author Marco Jakob (http://edu.makery.ch)
  */
 public class WorldImages {
 	private static final String USER_IMAGE_PATH = "images";
