@@ -753,6 +753,16 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 				List<Method> methods = new ArrayList<Method>();
 				methods.addAll(Arrays.asList(Kara.class.getDeclaredMethods()));
 				methods.addAll(Arrays.asList(world.karaClass.getDeclaredMethods()));
+				
+				// Sort the methods by method name
+				Collections.sort(methods, new Comparator<Method>() {
+					@Override
+					public int compare(Method m1, Method m2) {
+						return m1.getName().compareTo(m2.getName());
+					}
+				});
+				
+				// Create the menu items
 				for (final Method method : methods) {
 					if (method.getModifiers() == Modifier.PUBLIC) {
 						JMenuItem item = new JMenuItem(
