@@ -3,6 +3,7 @@ package kara.gamegrid.sokoban;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import kara.gamegrid.KaraWorld;
 import kara.gamegrid.WorldImages;
 
 import ch.aplu.jgamegrid.GGImage;
@@ -66,7 +67,7 @@ public class HighscoreState extends ScreenState {
 				16);
 
 		BufferedImage levelImg = gameScreen.getLevel(currentHighscoreLevel)
-				.toImage(GameScreen.CELL_SIZE);
+				.toImage(KaraWorld.CELL_SIZE);
 		int width = 420;
 		int height = 360;
 		levelImg = GGImage.scale(levelImg, width, height);

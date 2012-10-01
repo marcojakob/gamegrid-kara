@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -453,6 +455,71 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	protected String toASCIIText() {
 		return WorldSetup.createFromActors(getActors(), getNbHorzCells(), getNbVertCells(),
 				WORLD_SETUP_TITLE_KEY).toASCIIText(true);
+	}
+
+	/**
+	 * Gets the most recently pressed key <br>
+	 * <i>Ermittelt die zuletzt gedrueckte Taste</i>.
+	 * <p>
+	 * 
+	 * <ul>
+	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
+	 * 		Also returns uppercase characters when appropriate.</li>
+	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
+	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
+	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
+	 * </ul>
+	 * 
+	 * @return the most recently pressed key as String or an empty String if no key was pressed.
+	 */
+	protected String getKey() {
+		return convertKeyCode(getKeyCode(), getKeyModifiers());
+	}
+
+	/**
+	 * Converts the key code to a String representation resembling the Greenfoot keys.
+	 * 
+	 * <ul>
+	 * <li>"a", "b", .., "z" (alphabetical keys), "0".."9" (digits), most punctuation marks. 
+	 * 		Also returns uppercase characters when appropriate.</li>
+	 * <li>"up", "down", "left", "right" (the cursor keys)</li>
+	 * <li>"enter", "space", "tab", "escape", "backspace", "shift", "control"</li>
+	 * <li>"F1", "F2", .., "F12" (the function keys)</li>
+	 * </ul>
+	 * 
+	 * @param keyCode
+	 * @return the key or an empty String if the keycode was KeyEvent.CHAR_UNDEFINED.
+	 */
+	private String convertKeyCode(int keyCode, int keyModifiers) {
+		switch (keyCode) {
+		case KeyEvent.VK_LEFT: return "left";
+		case KeyEvent.VK_RIGHT: return "right";
+		case KeyEvent.VK_DOWN: return "down";
+		case KeyEvent.VK_UP: return "up";
+		case KeyEvent.VK_ENTER: return "enter";
+		case KeyEvent.VK_SPACE: return "space";
+		case KeyEvent.VK_TAB: return "tab";
+		case KeyEvent.VK_ESCAPE: return "escape";
+		case KeyEvent.VK_BACK_SPACE: return "backspace";
+		case KeyEvent.VK_SHIFT: return "shift";
+		case KeyEvent.VK_CONTROL: return "control";
+		case KeyEvent.VK_PERIOD: return ".";
+		case KeyEvent.VK_COMMA: return ",";
+		case KeyEvent.VK_EXCLAMATION_MARK: return "!";
+		case KeyEvent.VK_SEMICOLON: return ";";
+		case KeyEvent.VK_COLON: return ":";
+		case KeyEvent.CHAR_UNDEFINED: return "";
+		default: 
+			String letter = KeyEvent.getKeyText(keyCode);
+			if (letter != null && letter.length() == 1) {
+				if (keyModifiers == InputEvent.SHIFT_MASK) {
+					return letter.toUpperCase();
+				} else {
+					return letter.toLowerCase();
+				}
+			}
+			return "";
+		}
 	}
 
 	/**

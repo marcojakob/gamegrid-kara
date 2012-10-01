@@ -2,6 +2,8 @@ package kara.gamegrid.sokoban;
 
 import java.awt.Font;
 
+import kara.gamegrid.KaraWorld;
+
 
 
 /**
@@ -18,7 +20,7 @@ public class InputLabel extends Label {
 	/**
 	 * Constructor for an InputLabel.
 	 */
-	public InputLabel(GameScreen gameScreen, String text, int width,
+	public InputLabel(KaraWorld gameScreen, String text, int width,
 			int height, Font font) {
 		super(gameScreen, text, width, height, font);
 	}
