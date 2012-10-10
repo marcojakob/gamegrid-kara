@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -60,8 +58,6 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			Mushroom.class, 
 			Leaf.class};
 	
-	private PaintOrderComparator paintOrderComparator = new PaintOrderComparator(PAINT_ORDER);
-    
     protected Class<? extends Kara> karaClass;
     
     /**
@@ -420,7 +416,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			
 			Location location = toLocationInGrid(mouse.getX(), mouse.getY());
 			
-			ContextMenu menu = new ContextMenu(this, location, getTopActorAt(location));
+			ContextMenu menu = new ContextMenu(this, location, getOneActorAt(location));
 			menu.show(this, mouse.getX(), mouse.getY());
 		}
 
@@ -577,24 +573,6 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	}
 	
 	/**
-	 * Returns the actor that is on top according to the paint order.
-	 * 
-	 * @param location
-	 * @return the actor that is on top or null if none was there.
-	 */
-	private Actor getTopActorAt(Location location) {
-		List<Actor> actors = getActorsAt(location);
-		
-		if (actors.isEmpty()) {
-			return null;
-		}
-		
-		Collections.sort(actors, paintOrderComparator);
-		
-		return actors.get(0);
-	}
-	
-	/**
 	 * Updates all the mushroom image, i.e. adds mushroom glow if mushroom
 	 * is on a leaf (target) or removes the glow if not on a leaf any more.
 	 */
@@ -603,47 +581,6 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			if (actor instanceof Mushroom) {
 				((Mushroom) actor).updateImage();
 			}
-		}
-	}
-	
-	/**
-	 * Comparator for the paint order. Sorts so that the object that should
-	 * be on top is returned first.
-	 */
-	private class PaintOrderComparator implements Comparator<Object> {
-		
-		Map<Class<?>, Integer> order;
-		
-		/**
-		 * Create comparator. 
-		 * Objects of classes listed first in the parameter
-		 * list will appear on top of all objects of classes listed later.
-		 * Objects of classes not listed will appear below the objects whose
-		 * classes have been specified.
-		 * 
-		 * @param paintOrder
-		 *            the classes in desired order.
-		 */
-		public PaintOrderComparator(Class<?>[] paintOrder) {
-			order = new HashMap<Class<?>, Integer>();
-			for (int i = 0; i < paintOrder.length; i++) {
-				order.put(paintOrder[i], i);
-			}
-		}
-		
-		@Override
-		public int compare(Object o1, Object o2) {
-			Integer order1 = order.get(o1.getClass());
-			Integer order2 = order.get(o2.getClass());
-			
-			if (order2 == null) { // not contained in paint order
-				return -1; // o1 is smaller
-			}
-			if (order1 == null) {
-				return 1; // o2 is smaller
-			}
-			
-			return order1.compareTo(order2);
 		}
 	}
 	
@@ -684,7 +621,7 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 			case GGMouse.lPress:
 				lastLocation = location.clone();
 				
-				if (world.getTopActorAt(location) == actor) {
+				if (world.getOneActorAt(location) == actor) {
 					isDragging = true;
 				}
 				break;
