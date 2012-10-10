@@ -6,7 +6,7 @@
 	<classpathentry kind="src" path="src-chapter-3"/>
 	<classpathentry kind="src" path="src-chapter-4"/>
 	<classpathentry kind="src" path="src-chapter-5"/>
-	<classpathentry kind="lib" path="lib/JGameGrid-2.20.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_31"/>
+	<classpathentry kind="lib" path="lib/JGameGrid-2.23.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
