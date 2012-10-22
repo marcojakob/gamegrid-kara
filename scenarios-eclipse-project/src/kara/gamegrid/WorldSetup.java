@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -330,9 +331,11 @@ public class WorldSetup {
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
+	 * @throws IOException 
+	 * 			  Thrown if no file could be found or a file could not be read.
 	 */
 	public static WorldSetup[] parseFromFile(String fileName, String titleKey,
-			String... attributeKeys) {
+			String... attributeKeys) throws IOException {
 		return parseFromFile(fileName, null, titleKey, -1, -1, attributeKeys);
 	}
 
@@ -360,9 +363,11 @@ public class WorldSetup {
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
+	 * @throws IOException 
+	 * 			  Thrown if no file could be found or a file could not be read.
 	 */
 	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz,
-			String titleKey, String... attributeKeys) {
+			String titleKey, String... attributeKeys) throws IOException {
 		return parseFromFile(fileName, clazz, titleKey, -1, -1, attributeKeys);
 	}
 
@@ -393,45 +398,47 @@ public class WorldSetup {
 	 * @param attributeKeys
 	 *            Keys for optional attributes, e.g. "Password:".
 	 * @return the world setups as an array
+	 * @throws IOException 
+	 * 			  Thrown if no file could be found or a file could not be read.
+	 * 			  
 	 */
 	public static WorldSetup[] parseFromFile(String fileName, Class<?> clazz,
 			String titleKey, int worldWidth, int worldHeight,
-			String... attributeKeys) {
+			String... attributeKeys) throws IOException {
 		List<WorldSetup> result = new ArrayList<WorldSetup>();
 
-		try {
-			boolean containsWildcards = fileName.indexOf('?') != -1 
-					|| fileName.indexOf('*') != -1;
-			if (!containsWildcards) {
-				// no wildcards --> try to load from stream
-				InputStream stream;
-				if (clazz != null) {
-					stream = clazz.getResourceAsStream(fileName);
-				} else {
-					stream = WorldSetup.class.getResourceAsStream(fileName);
-				}
-				if (stream != null) {
-					List<String> lines = FileUtils.readAllLines(stream);
-					result.addAll(parseFromStrings(lines, titleKey, worldWidth,
-							worldHeight, fileName, attributeKeys));
-					return result.toArray(new WorldSetup[result.size()]);
-				}
+		boolean containsWildcards = fileName.indexOf('?') != -1 
+				|| fileName.indexOf('*') != -1;
+		if (!containsWildcards) {
+			// no wildcards --> try to load from stream
+			InputStream stream;
+			if (clazz != null) {
+				stream = clazz.getResourceAsStream(fileName);
+			} else {
+				stream = WorldSetup.class.getResourceAsStream(fileName);
 			}
-			
-			// try to find files, possibly with wildcard
-			List<File> matchingFiles = findMatchingFiles(fileName, clazz);
-			
-			for (File matchingFile : matchingFiles) {
-				List<String> lines = FileUtils.readAllLines(matchingFile);
+			if (stream != null) {
+				List<String> lines = FileUtils.readAllLines(stream);
 				result.addAll(parseFromStrings(lines, titleKey, worldWidth,
-						worldHeight, matchingFile.getName(), attributeKeys));
+						worldHeight, fileName, attributeKeys));
+				return result.toArray(new WorldSetup[result.size()]);
 			}
-			
-		} catch (Exception ex) {
-			// Just in case something goes wrong we catch it and print it out
-			ex.printStackTrace();
 		}
-
+		
+		// try to find files, possibly with wildcard
+		List<File> matchingFiles = findMatchingFiles(fileName, clazz);
+		
+		if (matchingFiles.isEmpty()) {
+			// no file found
+			throw new FileNotFoundException("Could not find file: " + fileName);
+		}
+		
+		for (File matchingFile : matchingFiles) {
+			List<String> lines = FileUtils.readAllLines(matchingFile);
+			result.addAll(parseFromStrings(lines, titleKey, worldWidth,
+					worldHeight, matchingFile.getName(), attributeKeys));
+		}
+			
 		return result.toArray(new WorldSetup[result.size()]);
 	}
 	

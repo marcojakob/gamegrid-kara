@@ -1,10 +1,12 @@
 # Changelog #
 
-## GameGridKara NOT YET RELEASED ##
+## GameGridKara 2.0.1 ##
 
 * Update to JGameGrid version 2.23. This simplifies drag-and-drop and context-menu
   handling because the getActor... methods will always return the topmost actor
   first. This wasn't the case before and had to be handled in the GameGridKara code.
+* Fix some typos in handouts.
+* Improved error handling if world setup file could not be loaded.
 
 
 ## GameGridKara 2.0, 2012-10-01 ##

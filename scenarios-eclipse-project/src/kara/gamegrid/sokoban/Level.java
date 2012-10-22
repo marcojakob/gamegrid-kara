@@ -1,5 +1,6 @@
 package kara.gamegrid.sokoban;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +64,10 @@ public class Level extends WorldSetup {
 	 *            <code>null</code> if the file should be retrieved relative to
 	 *            the jar root or project root.
 	 * @return the levels as an array
+	 * @throws IOException 
+	 * 			  Thrown if no file could be found or a file could not be read.
 	 */
-	public static Level[] parseFromFile(String levelFile, Class<?> clazz) {
+	public static Level[] parseFromFile(String levelFile, Class<?> clazz) throws IOException {
 		WorldSetup[] worldSetups = WorldSetup.parseFromFile(levelFile, clazz, TITLE_KEY, 
 				GameScreen.WIDTH_IN_CELLS, GameScreen.HEIGHT_IN_CELLS, PASSWORD_KEY);
 		Level[] levels = new Level[worldSetups.length];

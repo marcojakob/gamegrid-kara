@@ -150,29 +150,44 @@ public class KaraWorld extends GameGrid implements GGMouseListener,
 	 * @return
 	 */
 	private static WorldSetup loadWorldSetupFromFile(String worldFile, Class<? extends Kara> karaClass) {
-		WorldSetup[] worldSetups = WorldSetup.parseFromFile(worldFile, karaClass, WORLD_SETUP_TITLE_KEY, 
-				KARA_DIRECTION_KEY);
-		WorldSetup result = null;
-		
-		if (worldSetups.length == 1) {
-			result = worldSetups[0];
-		} else if (worldSetups.length > 1) {
-			// User must choose from a list of world setups
-		    result = (WorldSetup) JOptionPane.showInputDialog(null, 
-		    		"<html>Please Choose a World: <p><i>Bitte waehle eine Welt:</i>", 
-		    		"Choose World",
-		    		JOptionPane.QUESTION_MESSAGE, null,
-		    		worldSetups, // Array of choices
-		    		worldSetups[0]); // Initial choice
-		} else {
-			String message = "<html>" + "Could not load world setup from file: <p><i>" 
-					+ "Konnte keine Welt laden von der Datei: "
-					+ "</i><p><p>" + worldFile 
-					+ "<p><p>(A world-file must start with \"" + WORLD_SETUP_TITLE_KEY 
-					+ "\")</html>";
-	
+		WorldSetup[] worldSetups = null;
+		try {
+			worldSetups = WorldSetup.parseFromFile(worldFile, karaClass, WORLD_SETUP_TITLE_KEY, 
+					KARA_DIRECTION_KEY);
+			
+			if (worldSetups == null || worldSetups.length == 0) {
+				String message = "<html>" + "Could not load world setup from file: <p><i>" 
+						+ "Konnte keine Welt laden von der Datei: "
+						+ "</i><p><p>" + worldFile 
+						+ "<p><p>(A world-file must start with \"" + WORLD_SETUP_TITLE_KEY 
+						+ "\")</html>";
+				
+				JOptionPane.showMessageDialog(null, message, "Warning",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (IOException e) {
+			String message = "<html>" + "Could not find world setup file: <p><i>" 
+					+ "Konnte die world setup Datei nicht finden: "
+					+ "</i><p><p>" + worldFile + "</html>";
+			
 			JOptionPane.showMessageDialog(null, message, "Warning",
 					JOptionPane.WARNING_MESSAGE);
+		}
+		
+		WorldSetup result = null;
+		
+		if (worldSetups != null) {
+			if (worldSetups.length == 1) {
+				result = worldSetups[0];
+			} else if (worldSetups.length > 1) {
+				// User must choose from a list of world setups
+				result = (WorldSetup) JOptionPane.showInputDialog(null, 
+						"<html>Please Choose a World: <p><i>Bitte waehle eine Welt:</i>", 
+						"Choose World",
+						JOptionPane.QUESTION_MESSAGE, null,
+						worldSetups, // Array of choices
+						worldSetups[0]); // Initial choice
+			}
 		}
 		
 		if (result != null) {
