@@ -1,7 +1,10 @@
 # Changelog #
 
-## GameGridKara 2.0.1 ##
+## GameGridKara 2.0.2, 2012-10-25 ##
+* Simpler solutions to scenarios 22 and 23.
 
+
+## GameGridKara 2.0.1, 2012-10-22 ##
 * Update to JGameGrid version 2.23. This simplifies drag-and-drop and context-menu
   handling because the getActor... methods will always return the topmost actor
   first. This wasn't the case before and had to be handled in the GameGridKara code.
@@ -10,7 +13,6 @@
 
 
 ## GameGridKara 2.0, 2012-10-01 ##
-
 * Custom replacement images can be placed in a folder called "images". See new class 
 	WorldImages.
 * Background is now loaded from the field.png file and used as tile. This can also
@@ -40,7 +42,6 @@
 
 	
 ## GameGridKara 1.3.3 ##
-
 * Drag-and-Drop improvements: Enable or disable Actor dra-and-drop in World class.
 * Solved bug in context-menu: Sometimes an new ...() entry was in the context menu 
 	even if it is not possible to add such an actor at this location.

@@ -16,66 +16,60 @@ import kara.gamegrid.KaraWorld;
 public class MyKaraSolution extends Kara {
 	
     boolean goingRight = true;
-    boolean finished = false;
-    boolean havePutLeaf = false;
+    int step = 0;
 
     /**
      * In the 'act()' method you can write your program for Kara <br>
      * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert werden</i>
      */
 	public void act() {
-		// process first row
-		processRow();
-
-		while (!finished) {
-			if (goingRight) {
-				if (!treeRight()) {
-					turnRight();
-					move();
-					turnRight();
-					// we have turned and now go left
-					goingRight = false;
-
-					processRow();
-				} else {
-					// we are in the bottom right corner
-					finished = true;
-				}
-			} else {
-				if (!treeLeft()) {
-					turnLeft();
-					move();
-					turnLeft();
-					// we have turned and now go right
-					goingRight = true;
-
-					processRow();
-				} else {
-					// we are in the bottom left corner
-					finished = true;
-				}
-			}
-		}
+		putLeafIfEvenStep();
 		
-		stop();
-	}
-
-	public void processRow() {
-		while (!treeFront()) {
-			processCell();
+		if (treeFront()) {
+			if (goingRight) {
+				// we are at the right border
+				turnAroundRight();
+			} else {
+				// we are at the left border
+				turnAroundLeft();
+			}
+		} else {
 			move();
+			step = step + 1;
 		}
-
-		// process the last cell
-		processCell();
+	}
+	
+	public void turnAroundRight() {
+		if (treeRight()) {
+			// we are in the bottom right corner
+			stop();
+		} else {
+			turnRight();
+			move();
+			turnRight();
+			goingRight = false;
+			step = step + 1;
+		}
+	}
+	
+	public void turnAroundLeft() {
+		if (treeLeft()) {
+			// we are in the bottom left corner
+			stop();
+		} else {
+			turnLeft();
+			move();
+			turnLeft();
+			goingRight = true;
+			step = step + 1;
+		}
 	}
 
-	public void processCell() {
-		if (!havePutLeaf) {
+	public void putLeafIfEvenStep() {
+		if (step % 2 == 0) {
+			// even step number --> put a leaf
 			putLeaf();
 		}
-
-		havePutLeaf = !havePutLeaf;
 	}
 	
 	

@@ -16,57 +16,49 @@ import kara.gamegrid.KaraWorld;
 public class MyKaraSolution extends Kara {
 	
     boolean goingRight = true;
-    boolean finished = false;
 	
     /**
      * In the 'act()' method you can write your program for Kara <br>
      * <i>In der Methode 'act()' koennen die Befehle fuer Kara programmiert werden</i>
      */
 	public void act() {
-		// process the first line
-		processLine();
-
-		while (!finished) {
-			if (goingRight) {
-				if (!treeRight()) {
-					turnRight();
-					move();
-					turnRight();
-					// we have turned and now go left
-					goingRight = false;
-
-					processLine();
-				} else {
-					// we are in the bottom right corner
-					finished = true;
-				}
-			} else {
-				if (!treeLeft()) {
-					turnLeft();
-					move();
-					turnLeft();
-					// we have turned and now go right
-					goingRight = true;
-
-					processLine();
-				} else {
-					// we are in the bottom left corner
-					finished = true;
-				}
-			}
-		}
+		invertField();
 		
-		stop();
-	}
-
-	public void processLine() {
-		while (!treeFront()) {
-			invertField();
+		if (treeFront()) {
+			if (goingRight) {
+				// we are at the right border
+				turnAroundRight();
+			} else {
+				// we are at the left border
+				turnAroundLeft();
+			}
+		} else {
 			move();
 		}
-
-		// invert the last field in the corner
-		invertField();
+	}
+	
+	public void turnAroundRight() {
+		if (treeRight()) {
+			// we are in the bottom right corner
+			stop();
+		} else {
+			turnRight();
+			move();
+			turnRight();
+			goingRight = false;
+		}
+	}
+	
+	public void turnAroundLeft() {
+		if (treeLeft()) {
+			// we are in the bottom left corner
+			stop();
+		} else {
+			turnLeft();
+			move();
+			turnLeft();
+			goingRight = true;
+		}
 	}
 
 	public void invertField() {
